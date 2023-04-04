@@ -1,0 +1,24 @@
+{
+  "name": "express-nodejs-server",
+  "version": "1.0.0",
+  "description": "This is the express server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManyuDhyani/MovieMaster-OTT.git"
+  },
+  "author": "Group 007",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManyuDhyani/MovieMaster-OTT/issues"
+  },
+  "homepage": "https://github.com/ManyuDhyani/MovieMaster-OTT#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongodb": "^5.2.0"
+  }
+}
