@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
+import "../App.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -65,7 +66,7 @@ const Login = () => {
     }
   }, [redirect]);
 
-  const theme = createTheme();
+  const theme = createTheme({ palette: { mode: "dark" } });
 
   return (
     <ThemeProvider theme={theme}>
@@ -82,7 +83,7 @@ const Login = () => {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className="Label">
             Login
           </Typography>
           <Box
@@ -120,17 +121,18 @@ const Login = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              color="error"
             >
               Login
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" className="Link">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <Link href="/register" variant="body2" className="Link">
                   Do not have an account? Sign Up?
                 </Link>
               </Grid>

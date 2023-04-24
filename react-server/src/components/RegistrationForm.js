@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../App.css";
 import axios from "axios";
 import {
   Avatar,
@@ -14,6 +15,7 @@ import {
   Container,
   createTheme,
   ThemeProvider,
+  colors,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +62,17 @@ function RegistrationForm() {
     }
   }, [redirect]);
 
-  const theme = createTheme();
+  const theme = createTheme({ palette: { mode: "dark" } });
+  const linkStyle = {
+    margin: "1rem",
+    link: {
+      color: "#red",
+      "&:hover": {
+        color: "#red",
+        textDecoration: "underline #000000",
+      },
+    },
+  };
 
   return (
     // {if(){
@@ -78,7 +90,7 @@ function RegistrationForm() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className="Label">
             Register
           </Typography>
           <Box
@@ -120,18 +132,19 @@ function RegistrationForm() {
               type="submit"
               fullWidth
               variant="contained"
+              color="error"
               sx={{ mt: 3, mb: 2 }}
             >
               Register
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" className="Link">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/" variant="body2">
+                <Link href="/" variant="body2" style={linkStyle}>
                   Already have an account? SIgn In?
                 </Link>
               </Grid>
