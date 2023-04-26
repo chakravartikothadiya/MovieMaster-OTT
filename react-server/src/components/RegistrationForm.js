@@ -37,7 +37,7 @@ function RegistrationForm() {
       if (passlen < 6) setPasse(true);
 
       const response = await axios.post(
-        "http://localhost:8080/RegistrationForm",
+        "http://localhost:8000/RegistrationForm",
         { email, password }
       );
       console.log(response.data);

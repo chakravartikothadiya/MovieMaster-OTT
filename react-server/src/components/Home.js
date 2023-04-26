@@ -1,47 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Button, Box } from "@mui/material";
-import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
+import React from 'react'
+import Navbar from './Navbar';
+import HomeBanner from './HomeBanner';
+import CategoryRows from './CategoryRows'
+import Genre from './Genre';
+const API_KEY = process.env.REACT_APP_TMDC_API_KEY
 
-const Home = (props) => {
-  const navigate = useNavigate();
-  const session = useLocation().state.user_session;
+function Home() {
+    return (
+        <div className='home'>
+          <HomeBanner fetchURL = {`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_networks=213`} />
+          <CategoryRows title="MovieMaster Originals" fetchUrl = {`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_networks=213`} isOriginalRow />
+          <CategoryRows title="Trending Now" fetchUrl = {`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=en-US`} isOriginalRow />
+          <CategoryRows title="Top Rated" fetchUrl = {`https://api.themoviedb.org/3//movie/top_rated?api_key=${API_KEY}&language=en-US`} isOriginalRow />
+          <CategoryRows title="Action Movies" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`} isOriginalRow={false} />
+          <CategoryRows title="Comedy Movies" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=35`} isOriginalRow={false} />
+          <CategoryRows title="Horror Movies" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=27`} isOriginalRow={false} />
+          <CategoryRows title="Romance Movies" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=10749`} isOriginalRow={false} />
+          {/* <CategoryRows title="Science Fiction" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=878`} isOriginalRow={false} />
+          <CategoryRows title="Fantasy" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=14`} isOriginalRow={false} />
+          <CategoryRows title="Crime" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=80`} isOriginalRow={false} />
+          <CategoryRows title="Music" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=10402`} isOriginalRow={false} />
+          <CategoryRows title="Documentries" fetchUrl = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=99`} isOriginalRow={false} />  */}
+        </div>
+    );
+  }
 
-  const handleClick = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/Logout");
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  // useEffect(() => {
-  //   if (a) {
-  //     setUsername(a);
-  //   }
-  // }, [a]);
-
-  // if (!username) {
-  //   return <div>Loading...</div>;
-  // }
-
-  return (
-    <div>
-      {/* {a && <h1>Welcome, {a}!</h1>} */}
-      Welcome!
-      {/* <button onClick={handleClick}>Logout</button> */}
-      <h1>Welcome</h1>
-      {session.emailID}
-      <button
-        onClick={() => {
-          handleClick();
-          navigate("/");
-        }}
-      >
-        Logout
-      </button>
-    </div>
-  );
-};
-export default Home;
+export default Home

@@ -1,19 +1,26 @@
-import logo from "./logo.svg";
+import React from 'react'
 import "./App.css";
 import RegistrationForm from "./components/RegistrationForm";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 import Home from "./components/Home";
+import Genre from './components/Genre';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route exact path="/register" element={<RegistrationForm />} />
-        <Route exact path="/home" element={<Home />} />
-      </Routes>
+    <div className="app">
+        <Navbar />
+        <Routes>
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<RegistrationForm />} />
+
+          {/* The Routes from here on will be protected Routes. All routes expect Login and Register and in futuer Forgot password will be only non protected routes */}
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/genre/:id" element={<Genre />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

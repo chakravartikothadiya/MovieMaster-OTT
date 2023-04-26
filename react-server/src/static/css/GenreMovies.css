@@ -1,0 +1,25 @@
+.cardLayout{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-content: center;
+    place-items: center;
+    gap: 15px;
+  }
+  .cardLayout > div{
+    height: 100%;
+    width: 100%;
+  }
+  .cardLayout > div > div{
+    height: 100%;
+    margin: auto;
+    transition: all .3s;
+  }
+  .cardLayout > div > div:hover{
+    transform: scale(1.02);
+  }
+  .thumbnail{
+    max-height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
