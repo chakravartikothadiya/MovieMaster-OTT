@@ -1,47 +1,132 @@
-const mongoCollections = require('../config/mongoCollections');
-const validationFunctions = require('./validation');
-const movies = mongoCollections.movies;
-let { ObjectId } = require('mongodb');
-  
+const mongoCollections = require("../config/mongoCollections");
+// const validationFunctions = require("./validation");
+const likes = mongoCollections.likes;
+const { ObjectId } = require("mongodb");
+
+const getTotalLikesDislikes = async (movieId) => {
+  //validate movieId
+  console.log("Inside getTotalLikesDislikes");
+  console.log(movieId);
+  movieId = new ObjectId(movieId);
+
+  let moviesCollection = await likes();
+
+  //fecth the counte of all the like
+  console.log("Before count");
+  let likeCount = await moviesCollection.count({
+    movieId: movieId,
+    value: "like",
+  });
+  console.log(likeCount);
+
+  //fetch the count of all the dislikes
+  let dislikeCount = await moviesCollection.count({
+    movieId: movieId,
+    value: "dislike",
+  });
+  console.log(dislikeCount);
+
+  const result = {
+    likes: likeCount,
+    dislikes: dislikeCount,
+  };
+
+  return result;
+};
+
+const getLikeDislike = async (movieId, userId) => {
+  // await validationFunctions.isValidator(movieId);
+  // await validationFunctions.isValidator(userId);
+
+  if (!movieId || !userId) {
+    return null;
+  }
+
+  movieId = movieId.trim();
+  userId = userId.trim();
+
+  let moviesCollection = await likes();
+
+  movieId = new ObjectId(movieId);
+  userId = new ObjectId(userId);
+
+  //fetch the movie
+  let movie = await moviesCollection.findOne({
+    movieId: movieId,
+    userId: userId,
+  });
+  if (!movie) {
+    return null;
+  }
+
+  return movie.value;
+};
+
 const createlike = async (movieId, userId, value) => {
-    // Validation
+  // Validation
+  // await validationFunctions.idValidator(movieId);
+  // await validationFunctions.idValidator(userId);
+  //await validationFunctions.valueValidator(value);
 
-    await validationFunctions.idValidator(movieId);
-    await validationFunctions.idValidator(userId);
-    //await validationFunctions.valueValidator(value);
-    
+  if (!movieId || !userId) {
+    return;
+  }
 
-    movieId = movieId.trim();
-    userId = userId.trim();
-    value = value.trim();
-   
-    // Current timestamp
-    timestamp = new Date();
-    
-    let moviesCollection = await movies();
+  movieId = movieId.trim();
+  userId = userId.trim();
 
-    // Creating new like object
-    let newLike = {
-        userId: ObjectId(userId),
-        value: value,
-        timestamp: timestamp
+  // Current timestamp
+  let timestamp = new Date();
+
+  let moviesCollection = await likes();
+
+  // Creating new like object
+  movieId = new ObjectId(movieId);
+  userId = new ObjectId(userId);
+
+  const newLike = {
+    movieId: movieId,
+    userId: userId,
+    value: value,
+    timestamp: timestamp,
+  };
+
+  //Check if likeDislike is present or not
+  let likeDislike = await moviesCollection.findOne({
+    movieId: movieId,
+    userId: userId,
+  });
+  if (!likeDislike) {
+    //Add new one
+    let likeDislikeInsert = await moviesCollection.insertOne(newLike);
+    if (!likeDislikeInsert.acknowledged) {
+      throw {
+        statusCode: 500,
+        error:
+          "Internal Server Error: The LikeDislike was not added to the Database",
+      };
     }
+  } else {
+    //Write a code to update
+    let updateLikeDislike = await moviesCollection.updateOne(
+      {
+        movieId: movieId,
+        userId: userId,
+      },
+      { $set: { value: value } }
+    );
 
-    //Check if event is present or not
-    let movie = await moviesCollection.findOne({_id: ObjectId(movieId)})
-    if (!movie) {
-        throw {statusCode: 404, error:`No such movie with id: ${movieId}`}
+    if (updateLikeDislike.modifiedCount === 0) {
+      throw {
+        statusCode: 500,
+        error: `Unable to add the like value to the movie`,
+      };
     }
+  }
+};
 
-    let result = await moviesCollection.updateOne({_id:ObjectId(movieId)}, {$addToSet: {likes: newLike}});
-    if (result.modifiedCount === 0) {
-      throw {statusCode: 500, error: `Unable to add the like value to the movie`};
-    }
-
-    let updatedMovie = await moviesCollection.findOne({_id: ObjectId(movieId)});
-    if(!updatedMovie){
-      throw {statusCode: 404, error: `Unable to get movie after adding the like value`};
-    }
-
-    return updatedMovie;
+module.exports = {
+  createlike,
+  getLikeDislike,
+  getTotalLikesDislikes,
 };
