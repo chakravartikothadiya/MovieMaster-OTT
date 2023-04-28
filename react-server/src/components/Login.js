@@ -39,7 +39,7 @@ const Login = () => {
       setAuth(false);
 
       // response will have a session containing emailID and "login" key with a boolean value.
-      const response = await axios.post("http://localhost:8080/LoginForm", {
+      const response = await axios.post("http://localhost:8000/LoginForm", {
         email,
         password,
       });

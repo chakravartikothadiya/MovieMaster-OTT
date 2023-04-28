@@ -1,0 +1,11 @@
+.box{
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.iconsList{
+    margin-right: 1rem;
+}

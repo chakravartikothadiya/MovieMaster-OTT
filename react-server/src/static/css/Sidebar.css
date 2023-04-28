@@ -1,0 +1,27 @@
+.Sidebar {
+    background-color: black;
+    color: white;
+    max-width: auto;
+    padding: 20px;
+}
+
+.Sidebar{
+    overflow: hidden;
+}
+
+ul {
+    justify-content: space-around;
+    list-style: none;
+}
+ul li a{
+    cursor: pointer;
+    color: white;
+    background-color: rgba(58, 55, 55, 0.5);
+    text-decoration: none;
+}
+
+ul li a:hover{
+    color: rgb(184, 172, 172);
+    transition: all 0.3s;
+    text-decoration: underline;
+}

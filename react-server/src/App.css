@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -139,3 +140,8 @@
     transform: rotate(360deg);
   }
 }
+
+.app {
+  background-color: black;
+}
+

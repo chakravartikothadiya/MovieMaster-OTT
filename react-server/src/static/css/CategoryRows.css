@@ -1,0 +1,50 @@
+.categoryRows {
+  margin-left: 20px;
+  margin-top: 10px;
+  color: white;
+}
+
+.categoryRowsthumbnails {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 20px;
+}
+
+.categoryRowsthumbnails::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryRowsthumbnail {
+  max-height: 140px;
+  width: 100%;
+}
+
+/* .categoryRowsthumbnail:hover {
+  transform: scale(1.1);
+  transition: transform 450ms;
+  opacity: 1;
+} */
+
+.OriginalThumbnail:hover {
+  transform: scale(1.1);
+  opacity: 1;
+  transition: transform 450ms;
+}
+
+.OriginalThumbnail {
+  max-height: 200px;
+  cursor: pointer;
+  object-fit: contain;
+  margin-right: 10px;
+  transition: transform 450ms;
+  padding-right: 2px;
+}
+
+/* This is CSS for the Card Link tag to movies */
+/* .card-link,
+.categoryRowsthumbnail,
+.OriginalThumbnail {
+  text-decoration: none;
+  color: inherit;
+} */
