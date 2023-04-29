@@ -15,8 +15,8 @@ let firebase_auth = {};
 
 router.route("/RegistrationForm").post(async (req, res) => {
   try {
-    console.log("in RegistrationForm");
-    console.log(req.body);
+    // console.log("in RegistrationForm");
+    // console.log(req.body);
     let userResponse;
     //creating user and initially setting the verification to be false
 
@@ -98,7 +98,7 @@ router.route("/LoginForm").post(async (req, res) => {
     req.session.save();
 
     firebase_auth = { user };
-    console.log("SESSION", req.session.id);
+    // console.log("SESSION", req.session.id);
     // user_session.session = req.session;
     // console.log("User_session", user_session);
     res.json(req.session);
@@ -110,8 +110,8 @@ router.route("/LoginForm").post(async (req, res) => {
 
 router.route("/Logout").post(async (req, res) => {
   try {
-    console.log("inside Logout route");
-    console.log(req.session.id);
+    // console.log("inside Logout route");
+    // console.log(req.session.id);
     const auth = getAuth(app);
     // console.log("in logout", auth.currentUser());
     auth()

@@ -51,6 +51,10 @@ const Login = () => {
           "session_auth",
           JSON.stringify(response.data.login)
         );
+        localStorage.setItem(
+          "session_email",
+          JSON.stringify(response.data.emailID)
+        );
         setUsersession(response.data);
         // console.log(response.data);
         setRedirect(true);
@@ -72,7 +76,7 @@ const Login = () => {
 
   useEffect(() => {
     if (redirect) {
-      navigate("/home", { state: { user_session: user_session } });
+      navigate("/", { state: { user_session: user_session } });
     }
   }, [redirect]);
 
