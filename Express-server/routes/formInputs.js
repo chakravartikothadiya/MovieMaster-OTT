@@ -3,15 +3,21 @@ const router = express.Router();
 const firebaseFunctions = require("../data/FirebaseAuth");
 const admin = require("firebase-admin");
 const { db } = require("../firebase/db");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
+const {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} = require("firebase/auth");
 const { app } = require("../firebase/authentication");
-let user_session = {};
+
+const session = require("express-session");
+// let user_session = {};
 let firebase_auth = {};
 
 router.route("/RegistrationForm").post(async (req, res) => {
   try {
-    console.log("in RegistrationForm");
-    console.log(req.body);
+    // console.log("in RegistrationForm");
+    // console.log(req.body);
     let userResponse;
     //creating user and initially setting the verification to be false
 
@@ -75,7 +81,7 @@ router.route("/LoginForm").post(async (req, res) => {
     const password = req.body.password;
 
     const auth = getAuth(app);
-
+    // console.log(`before`, auth.currentUser);
     const userCredential = await signInWithEmailAndPassword(
       auth,
       req.body.email,
@@ -83,15 +89,19 @@ router.route("/LoginForm").post(async (req, res) => {
     );
     const user = userCredential.user;
     // console.log(user);
+    // console.log("after", auth.currentUser);
     if (!user) {
       res.json("no user found");
     }
+    // console.log(req);
     req.session.emailID = req.body.email;
     req.session.login = true;
+    req.session.save();
+
     firebase_auth = { user };
-    // console.log(req.session);
-    user_session.session = req.session;
-    console.log("User_session", user_session);
+    // console.log("SESSION", req.session.id);
+    // user_session.session = req.session;
+    // console.log("User_session", user_session);
     res.json(req.session);
     // res.json(user);
   } catch (e) {
@@ -101,11 +111,36 @@ router.route("/LoginForm").post(async (req, res) => {
 
 router.route("/Logout").post(async (req, res) => {
   try {
-    console.log("inside Logout route");
-    console.log(user_session);
-    user_session = {};
-    console.log(user_session);
+    // console.log("inside Logout route");
+    // console.log(req.session.id);
+    const auth = getAuth(app);
+    // console.log("in logout", auth.currentUser());
+    auth()
+      .signOut()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    // console.log(user_session);
+    // user_session = {};
+    // console.log(user_session);
     res.json({ message: "user logged out" });
+  } catch (e) {
+    res.json(e);
+  }
+});
+
+router.route("/ResetPassword").post(async (req, res) => {
+  try {
+    console.log("in ResetPassword");
+    console.log(req.body.email);
+    // Send a password reset email to the user's email address
+    const auth = getAuth(app);
+    const resp = await sendPasswordResetEmail(auth, req.body.email);
+    // console.log(resp);
+    res.json({ message: "Password reset email sent" });
   } catch (e) {
     res.json(e);
   }
