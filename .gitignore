@@ -1,2 +1,4 @@
 /Express-server/node_modules/
 /react-server/node_modules/cd 
+/Express-server/package-lock.json
+/react-server/package-lock.json

@@ -2,7 +2,6 @@ import React from 'react'
 import '../static/css/GenreMovies.css'
 
 function GenreMovies({movies}) {
-    console.log(movies)
     return (
         <div className='cardLayout'>
         {movies?.map(movie => (
