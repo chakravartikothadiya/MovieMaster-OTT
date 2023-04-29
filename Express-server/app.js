@@ -3,10 +3,19 @@ const app = express();
 const configRoutes = require("./routes");
 const cors = require("cors");
 const session = require("express-session");
+const http = require("http");
+const { Server } = require("socket.io");
+const axios = require('axios')
 
-// app.use(cors());
 app.use(cors());
 
+// Redis Client Connection
+const redis = require('redis');
+const client = redis.createClient();
+(async () => {
+  client.on('error', (err) => console.log('Redis Client Error', err));
+  await client.connect();
+})();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -84,7 +93,6 @@ app.get('/:genre/:number', async (req, res, next) => {
           allRecommendedMovies.push(movieObject)
         })
       )
-      console.log(allRecommendedMovies)
       return res.json(allRecommendedMovies);
     }
   } catch (err) {
