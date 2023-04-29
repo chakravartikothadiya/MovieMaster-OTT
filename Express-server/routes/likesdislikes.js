@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const session = require("express-session");
 const likesData = require("../data/likes");
 
 router

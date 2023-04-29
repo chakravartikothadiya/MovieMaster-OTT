@@ -19,7 +19,7 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-console.log("session created");
+// console.log("session created");
 app.use(
   session({
     name: "AuthCookie",
@@ -32,12 +32,12 @@ app.use(
 app.set("socketio", io);
 
 app.use("/LoginForm", (req, res, next) => {
-  console.log(req.session.id);
+  // console.log(req.session.id);
   next();
 });
 
 app.use("/Logout", (req, res, next) => {
-  console.log(req.session);
+  // console.log(req.session);
   next();
 });
 
@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
     // socket.leave(name);
     const rooms = socket.rooms;
     // const rooms = Object.keys(socket.rooms);
-    console.log(rooms.values());
+    // console.log(rooms.values());
     rooms.forEach((room) => {
       socket.leave(room);
     });
@@ -85,11 +85,10 @@ io.on("connection", (socket) => {
 //
 // io.origins("*:*");
 
-server.listen(8080, () => {
+server.listen(8000, () => {
   console.log("We've now got a NODE server!");
-  console.log("Your routes will be running on http://localhost:8080");
-  console.log(`Socket.io is listening on *:${8080}`);
-
+  console.log("Your routes will be running on http://localhost:8000");
+  console.log(`Socket.io is listening on *:${8000}`);
 });
 
 // app.listen(8080, () => {
