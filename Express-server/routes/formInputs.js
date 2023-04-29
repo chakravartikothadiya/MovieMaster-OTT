@@ -5,7 +5,6 @@ const admin = require("firebase-admin");
 const { db } = require("../firebase/db");
 const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 const { app } = require("../firebase/authentication");
-const session = require("express-session");
 let user_session = {};
 let firebase_auth = {};
 
