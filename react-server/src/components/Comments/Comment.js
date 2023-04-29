@@ -23,15 +23,15 @@ export default function Comment({
   const isReply =
     activeComment &&
     activeComment.type === "replying" &&
-    activeComment.id === comment.id;
+    activeComment._id === comment._id;
   const isEdit =
     activeComment &&
     activeComment.type === "editing" &&
-    activeComment.id === comment.id;
+    activeComment._id === comment._id;
 
-  const replyId = parentId ? parentId : comment.id;
+  const replyId = parentId ? parentId : comment._id;
   return (
-    <div key={comment.id} className={styles.comment}>
+    <div key={comment._id} className={styles.comment}>
       <div className={styles.comment_image_container}>
         <img src={profile} className={styles.profile_image} alt="abc" />
       </div>
@@ -46,7 +46,7 @@ export default function Comment({
             submitLable="Update"
             hasCancelButton
             initialText={comment.body}
-            handleSubmit={(text) => updateComment(text, comment.id)}
+            handleSubmit={(text) => updateComment(text, comment._id)}
             handleCancel={() => setactiveComment(null)}
             comment={comment}
           />
@@ -57,7 +57,7 @@ export default function Comment({
               <div
                 className={styles.comment_action}
                 onClick={() =>
-                  setactiveComment({ id: comment.id, type: "replying" })
+                  setactiveComment({ _id: comment._id, type: "replying" })
                 }
               >
                 Relpy
@@ -67,7 +67,7 @@ export default function Comment({
               <div
                 className={styles.comment_action}
                 onClick={() =>
-                  setactiveComment({ id: comment.id, type: "editing" })
+                  setactiveComment({ _id: comment._id, type: "editing" })
                 }
               >
                 Edit
@@ -76,7 +76,7 @@ export default function Comment({
             {canDelete && (
               <div
                 className={styles.comment_action}
-                onClick={() => deleteComment(comment.id)}
+                onClick={() => deleteComment(comment._id)}
               >
                 Delete
               </div>
@@ -97,13 +97,13 @@ export default function Comment({
             {replies.map((reply) => (
               <Comment
                 comment={reply}
-                key={reply.id}
+                key={reply._id}
                 activeComment={activeComment}
                 setactiveComment={setactiveComment}
                 deleteComment={deleteComment}
                 addComment={addComment}
                 updateComment={updateComment}
-                parentId={comment.id}
+                parentId={comment._id}
                 replies={[]}
                 currentUserId={currentUserId}
               />

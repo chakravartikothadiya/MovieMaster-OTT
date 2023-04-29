@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Comments from "./Comments/Comments";
 import Footer from "./Footer/Footer";
 
-const API_KEY = "19f84e11932abbc79e6d83f82d6d1045";
+const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 export default function LoadMovie() {
   const { id } = useParams();
@@ -38,7 +38,7 @@ export default function LoadMovie() {
           description={movie.overview}
         />
       )}
-      <Comments currentUserId="1" />
+      <Comments currentUserId="6397bd1144507f75ce38a1a5" />
       {/* <Footer /> */}
     </div>
   );

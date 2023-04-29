@@ -90,8 +90,3 @@ server.listen(8000, () => {
   console.log("Your routes will be running on http://localhost:8000");
   console.log(`Socket.io is listening on *:${8000}`);
 });
-
-// app.listen(8080, () => {
-//   console.log("We've now got a NODE server!");
-//   console.log("Your routes will be running on http://localhost:8080");
-// });

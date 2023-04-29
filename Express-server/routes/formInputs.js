@@ -9,6 +9,7 @@ const {
   sendPasswordResetEmail,
 } = require("firebase/auth");
 const { app } = require("../firebase/authentication");
+
 const session = require("express-session");
 // let user_session = {};
 let firebase_auth = {};
