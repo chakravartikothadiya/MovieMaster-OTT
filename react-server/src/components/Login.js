@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import "../App.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -28,21 +28,35 @@ const Login = () => {
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [auth, setAuth] = useState(false);
 
+  const msg = useLocation().state;
+
+  // console.log(msg);
   const handleSubmit = async (event) => {
     event.preventDefault();
     // console.log(event);
     try {
       setInvalidEmail(false);
       setAuth(false);
+
       // response will have a session containing emailID and "login" key with a boolean value.
       const response = await axios.post("http://localhost:8000/LoginForm", {
         email,
         password,
       });
+      // check!
+      console.log("hey", response.data.login);
       if (!response.data.code) {
         console.log(response);
+        localStorage.setItem(
+          "session_auth",
+          JSON.stringify(response.data.login)
+        );
+        localStorage.setItem(
+          "session_email",
+          JSON.stringify(response.data.emailID)
+        );
         setUsersession(response.data);
-        console.log(response.data);
+        // console.log(response.data);
         setRedirect(true);
       } else {
         if (response.data.code == "auth/invalid-email") setInvalidEmail(true);
@@ -62,7 +76,7 @@ const Login = () => {
 
   useEffect(() => {
     if (redirect) {
-      navigate("/home", { state: { user_session: user_session } });
+      navigate("/", { state: { user_session: user_session } });
     }
   }, [redirect]);
 
@@ -127,7 +141,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" className="Link">
+                <Link href="/resetpass" variant="body2" className="Link">
                   Forgot password?
                 </Link>
               </Grid>
@@ -138,6 +152,7 @@ const Login = () => {
               </Grid>
             </Grid>
           </Box>
+          {msg && msg ? msg.msg : null}
           {/* {redirect ? (
             <Navigate to={{ pathname: "/home" }} />
           ) : null} */}
