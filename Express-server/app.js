@@ -53,51 +53,6 @@ app.use("/Logout", (req, res, next) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/:genre/:number', async (req, res, next) => {
   const { genre, number } = req.params;
   console.log(genre, number)
