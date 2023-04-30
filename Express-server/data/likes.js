@@ -7,7 +7,6 @@ const getTotalLikesDislikes = async (movieId) => {
   //validate movieId
   console.log("Inside getTotalLikesDislikes");
   console.log(movieId);
-  movieId = new ObjectId(movieId);
 
   let moviesCollection = await likes();
 
@@ -47,9 +46,6 @@ const getLikeDislike = async (movieId, userId) => {
 
   let moviesCollection = await likes();
 
-  movieId = new ObjectId(movieId);
-  userId = new ObjectId(userId);
-
   //fetch the movie
   let movie = await moviesCollection.findOne({
     movieId: movieId,
@@ -79,10 +75,6 @@ const createlike = async (movieId, userId, value) => {
   let timestamp = new Date();
 
   let moviesCollection = await likes();
-
-  // Creating new like object
-  movieId = new ObjectId(movieId);
-  userId = new ObjectId(userId);
 
   const newLike = {
     movieId: movieId,
