@@ -12,6 +12,7 @@ let { ObjectId } = require("mongodb");
 //   },
 
 const removeComment = async (commentId) => {
+  console.log(commentId);
   const commentsCollection = await comments();
   let commentID_s = commentId;
   commentId = new ObjectId(commentId);
@@ -30,12 +31,6 @@ const removeComment = async (commentId) => {
     const deleteAllChild = await commentsCollection.deleteMany({
       parentId: commentID_s,
     });
-    if (deleteAllChild.deletedCount <= 0) {
-      throw {
-        statusCode: 500,
-        error: `Unable to delete comment from the database`,
-      };
-    }
   }
 
   //delete the object with commentId

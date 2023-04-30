@@ -52,6 +52,7 @@ router.route("/remove").post(async (req, res) => {
   try {
     console.log("Inside Remove Route");
     const { commentId } = req.body;
+    console.log(commentId);
     const deleteComment = await commentsData.removeComment(commentId);
   } catch (e) {
     res.json(e);
