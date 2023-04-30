@@ -10,6 +10,9 @@ import Genre from "./components/Genre";
 import Navbar from "./components/Navbar";
 import LoadMovie from "./components/LoadMovie";
 
+//Gloabal Variable
+window.myGlobalUserId = null;
+
 function App() {
   let session_data_auth = localStorage.getItem("session_auth");
   let session_data_emailID = localStorage.getItem("session_email");

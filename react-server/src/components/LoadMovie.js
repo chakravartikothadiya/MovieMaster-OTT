@@ -3,12 +3,17 @@ import axios from "axios";
 import Detail from "./MovieDetails";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Comments from "./Comments/Comments";
 import Footer from "./Footer/Footer";
 
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 export default function LoadMovie() {
+  const location = useLocation();
+  let session = location.state && location.state.userId;
+  let username = location.state && location.state.username;
+  console.log("Inside LoadMovie session:", session);
   const { id } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
   const [movie, setMovie] = useState(null);
@@ -36,10 +41,16 @@ export default function LoadMovie() {
           poster={"https://image.tmdb.org/t/p/original" + movie.backdrop_path}
           release={movie.release_date}
           description={movie.overview}
+          userId={session}
+          username={username}
         />
       )}
       {movie && (
-        <Comments currentUserId="6397bd1144507f75ce38a1a5" movieId={movie.id} />
+        <Comments
+          currentUserId={session}
+          username={username}
+          movieId={movie.id}
+        />
       )}
       {/* <Footer /> */}
     </div>

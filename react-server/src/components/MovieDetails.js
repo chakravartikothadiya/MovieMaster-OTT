@@ -6,7 +6,8 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 export default function Detail(props) {
   let mvId = props.id.toString();
-  let userId;
+  let usrId = props.userId;
+  console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
 
   // const [selectedData, setselectedData] = useState(null);
@@ -24,7 +25,7 @@ export default function Detail(props) {
     if (isLiked) {
       setisLiked(false);
       setLikes(likes - 1);
-      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", null);
+      setDBLikesDislike(mvId, usrId, null);
     } else {
       if (isDisliked) {
         setisDisliked(false);
@@ -32,7 +33,7 @@ export default function Detail(props) {
       }
       setisLiked(true);
       setLikes(likes + 1);
-      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", "like");
+      setDBLikesDislike(mvId, usrId, "like");
     }
   };
 
@@ -40,7 +41,7 @@ export default function Detail(props) {
     if (isDisliked) {
       setisDisliked(false);
       setDislikes(dislikes - 1);
-      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", null);
+      setDBLikesDislike(mvId, usrId, null);
     } else {
       if (isLiked) {
         setisLiked(false);
@@ -48,7 +49,7 @@ export default function Detail(props) {
       }
       setisDisliked(true);
       setDislikes(dislikes + 1);
-      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", "dislike");
+      setDBLikesDislike(mvId, usrId, "dislike");
     }
   };
 
@@ -73,11 +74,10 @@ export default function Detail(props) {
   };
 
   const fetchLikesDislikes = async () => {
-    userId = "6397bd1144507f75ce38a1a5";
     const response = await axios.get("http://localhost:8000/likes/", {
       params: {
         movieId: mvId,
-        userId: userId,
+        userId: usrId,
       },
     });
     console.log(response.data);
@@ -95,6 +95,10 @@ export default function Detail(props) {
   };
 
   const setDBLikesDislike = async (movieId, userId, value) => {
+    console.log("Inside HEr");
+    console.log(movieId);
+    console.log(userId);
+    console.log(value);
     const response = await axios.post("http://localhost:8000/likes/", {
       movieId,
       userId,
