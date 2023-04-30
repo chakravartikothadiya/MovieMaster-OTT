@@ -16,7 +16,7 @@ router.route("/:genre/:number").get(async (req, res) => {
     try {
       const { data } = await axios.get(url);
       if (data.movies.length === 0) {
-        return res.status(404).send("Movies not found");
+        return res.status(404).send(data);
       } else {
         allRecommendedMovies = [];
         await Promise.all(
@@ -39,13 +39,20 @@ router.route("/:genre/:number").get(async (req, res) => {
                 await client.set(movie, JSON.stringify(movieObject));
               }
             }
-            allRecommendedMovies.push(movieObject);
+            if (movieObject != null && movieObject.image != null) {
+                allRecommendedMovies.push(movieObject);
+            }
           })
         );
         return res.json(allRecommendedMovies);
       }
     } catch (err) {
-      return res.status(500).send("Internal Server Error");
+        if (err){
+            return res.status(404).json("No Related Movies Found");
+        }
+        else {
+            return res.status(500).json("Internal Server Error")
+        }
     }
 });
 

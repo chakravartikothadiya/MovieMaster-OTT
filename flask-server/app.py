@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, abort
 from utils import recommend_movies
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ def results(genre, number):
         prediction = recommend_movies(genre, number)
         return jsonify(prediction)
     except:
-        return jsonify("Movies related to requested {} is not in the database!".format(genre))
+        abort(404, "Movies related to requested {} is not in the database!".format(genre))
 
 if __name__ == "__main__":
     app.run(debug=True)
