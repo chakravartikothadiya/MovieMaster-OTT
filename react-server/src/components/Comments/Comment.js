@@ -14,6 +14,9 @@ export default function Comment({
   setactiveComment,
   parentId = null,
 }) {
+  console.log("currentUserId", currentUserId);
+  console.log("comment.userId", comment.userId);
+
   const canReply = Boolean(currentUserId);
   const canEdit = currentUserId === comment.userId;
   const canDelete = currentUserId === comment.userId;

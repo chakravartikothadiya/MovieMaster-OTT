@@ -20,6 +20,11 @@ function Home() {
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
   console.log(session);
+  let userId = session.uid;
+  let email = session.emailID;
+  let username = email.split("@").shift();
+  console.log("Inside HOME", username);
+  userId = userId.toString();
 
   //join room
   const join_room = (e, MovieName) => {
@@ -79,7 +84,7 @@ function Home() {
       {chat && (
         <Chatroom
           socket={socket}
-          username={session.emailID.split("@")[0]}
+          username={username}
           room={roomName}
           toggle={true}
         />
@@ -89,36 +94,50 @@ function Home() {
           fetchURL={`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_networks=213`}
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="MovieMaster Originals"
           fetchUrl={`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_networks=213`}
           isOriginalRow
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Trending Now"
           fetchUrl={`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=en-US`}
           isOriginalRow
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Top Rated"
           fetchUrl={`https://api.themoviedb.org/3//movie/top_rated?api_key=${API_KEY}&language=en-US`}
           isOriginalRow
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Action Movies"
           fetchUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`}
           isOriginalRow={false}
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Comedy Movies"
           fetchUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=35`}
           isOriginalRow={true}
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Horror Movies"
           fetchUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=27`}
           isOriginalRow={false}
         />
         <CategoryRows
+          userId={userId}
+          username={username}
           title="Romance Movies"
           fetchUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=10749`}
           isOriginalRow={false}

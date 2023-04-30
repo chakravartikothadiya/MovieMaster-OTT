@@ -3,7 +3,13 @@ import "../static/css/CategoryRows.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function CategoryRows({ title, fetchUrl, isOriginalRow = true }) {
+function CategoryRows({
+  userId,
+  username,
+  title,
+  fetchUrl,
+  isOriginalRow = true,
+}) {
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
 
@@ -23,7 +29,11 @@ function CategoryRows({ title, fetchUrl, isOriginalRow = true }) {
         {movies.map((movie) => (
           <div
             className={`${isOriginalRow && "OriginalThumbnail"}`}
-            onClick={() => navigate(`/movie/${movie.id}/`)}
+            onClick={() =>
+              navigate(`/movie/${movie.id}/`, {
+                state: { userId: userId, username: username },
+              })
+            }
           >
             <img
               width={135}
