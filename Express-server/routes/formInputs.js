@@ -76,7 +76,6 @@ router.route("/LoginForm").post(async (req, res) => {
       .where("email", "==", req.body.email)
       .get();
 
-    // console.log(getUser);
     // const emailID = getUser.docs[0].data().email;
     const password = req.body.password;
 
@@ -88,12 +87,12 @@ router.route("/LoginForm").post(async (req, res) => {
       password
     );
     const user = userCredential.user;
-    // console.log(user);
     // console.log("after", auth.currentUser);
     if (!user) {
       res.json("no user found");
     }
     // console.log(req);
+    req.session.uid = user.uid;
     req.session.emailID = req.body.email;
     req.session.login = true;
     req.session.save();
@@ -111,22 +110,21 @@ router.route("/LoginForm").post(async (req, res) => {
 
 router.route("/Logout").post(async (req, res) => {
   try {
-    // console.log("inside Logout route");
+    console.log("inside Logout route");
     // console.log(req.session.id);
     const auth = getAuth(app);
-    // console.log("in logout", auth.currentUser());
-    auth()
+    // console.log("in logout", await auth.currentUser());
+    auth
       .signOut()
-      .then((res) => {
-        console.log(res);
+      .then((result) => {
+        console.log(result);
+        console.log("User has been signed out successfully");
+        res.json({ message: "user logged out" });
       })
       .catch((e) => {
-        console.log(e);
+        console.log("Error occurred during sign out:", e);
+        res.json(e);
       });
-    // console.log(user_session);
-    // user_session = {};
-    // console.log(user_session);
-    res.json({ message: "user logged out" });
   } catch (e) {
     res.json(e);
   }

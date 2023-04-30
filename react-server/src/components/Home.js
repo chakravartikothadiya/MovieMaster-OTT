@@ -19,6 +19,7 @@ function Home() {
   let session = location.state && location.state.user_session;
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
+  console.log(session);
 
   //join room
   const join_room = (e, MovieName) => {
