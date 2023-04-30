@@ -74,7 +74,9 @@ function RegistrationForm() {
     },
   };
 
-  return (
+  return localStorage.getItem("session_auth") ? (
+    (window.location.pathname = "/")
+  ) : (
     // {if(){
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

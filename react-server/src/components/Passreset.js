@@ -52,7 +52,9 @@ const Passreset = () => {
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
-  return (
+  return localStorage.getItem("session_auth") ? (
+    (window.location.pathname = "/")
+  ) : (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
