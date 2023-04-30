@@ -1,7 +1,8 @@
 import React, { Component, useEffect, useState } from "react";
 import "../App.css";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import Home from "./Home";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -30,6 +31,18 @@ const Login = () => {
 
   const msg = useLocation().state;
 
+  console.log(typeof window.location.pathname);
+  console.log(localStorage.getItem("session_auth"));
+  if (localStorage.getItem("session_auth") == "true") {
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register" ||
+      window.location.pathname === "/resetpass"
+    ) {
+      <Navigate to="/" />;
+    }
+  }
+
   // console.log(msg);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,9 +57,8 @@ const Login = () => {
         password,
       });
       // check!
-      console.log("hey", response.data.login);
       if (!response.data.code) {
-        console.log(response);
+        // console.log(response);
         localStorage.setItem(
           "session_auth",
           JSON.stringify(response.data.login)
@@ -65,7 +77,7 @@ const Login = () => {
           response.data.code == "auth/user-not-found"
         )
           setAuth(true);
-        console.log(response.data.code);
+        // console.log(response.data.code);
       }
 
       // setUsersession(response.data);
@@ -82,7 +94,10 @@ const Login = () => {
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
-  return (
+  return localStorage.getItem("session_auth") ? (
+    (window.location.pathname = "/")
+  ) : (
+    // <Home />
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
