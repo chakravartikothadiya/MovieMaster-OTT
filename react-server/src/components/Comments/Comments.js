@@ -10,7 +10,9 @@ import Comment from "./Comment";
 import styles from "./Comments.module.css";
 import CommentFrom from "./CommentForm";
 
-export default function Comments({ currentUserId }) {
+export default function Comments({ currentUserId, movieId }) {
+  console.log("movieId", movieId);
+  movieId = movieId.toString();
   const [backendComments, setbackendComments] = useState([]);
 
   //For Reply and Editing of the Comments, Maintaing a state called activeComments
@@ -31,7 +33,6 @@ export default function Comments({ currentUserId }) {
 
   const getNewAddedComments = async (text, parentId) => {
     //Add new replys here
-    let movieId = "634f172e461a102907ecbdbb";
     let userId = "6397bd1144507f75ce38a1a5";
     let username = "Chakravarti";
     let body = text;
@@ -91,7 +92,6 @@ export default function Comments({ currentUserId }) {
 
   const setData = async () => {
     //trigger that API
-    let movieId = "634f172e461a102907ecbdbb";
     let userId = "6397bd1144507f75ce38a1a5";
     const response = await axios.get("http://localhost:8000/comments/", {
       params: {

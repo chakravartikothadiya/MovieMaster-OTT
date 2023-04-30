@@ -21,8 +21,7 @@ function Navbar() {
     try {
       const response = await axios.post("http://localhost:8000/Logout");
       console.log(response);
-      localStorage.setItem("session_auth", false);
-      localStorage.setItem("session_email", null);
+      localStorage.clear();
     } catch (error) {
       console.error(error);
     }
@@ -52,6 +51,7 @@ function Navbar() {
           <button
             onClick={() => {
               handleClick();
+              setLogoutButton(false);
               navigate("/login");
             }}
           >

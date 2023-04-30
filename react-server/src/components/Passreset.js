@@ -29,7 +29,7 @@ const Passreset = () => {
     try {
       if (email !== "") {
         const response = await axios.post(
-          "http://localhost:8080/ResetPassword",
+          "http://localhost:8000/ResetPassword",
           {
             email,
           }
@@ -46,7 +46,7 @@ const Passreset = () => {
 
   useEffect(() => {
     if (redirect) {
-      navigate("/", { state: { msg: "Password reset link sent" } });
+      navigate("/login", { state: { msg: "Password reset link sent" } });
     }
   }, [redirect]);
 
