@@ -13,7 +13,31 @@ let { ObjectId } = require("mongodb");
 
 const removeComment = async (commentId) => {
   const commentsCollection = await comments();
+  let commentID_s = commentId;
   commentId = new ObjectId(commentId);
+
+  // Fetch the data first and check if it is a parent Comment or not
+  const fetchComment = await commentsCollection.findOne({ _id: commentId });
+  if (!fetchComment) {
+    throw {
+      statusCode: 500,
+      error: `Unable to find comment to be deleted from the database`,
+    };
+  }
+
+  if (fetchComment.parentId === null) {
+    console.log("Deleting parentID");
+    const deleteAllChild = await commentsCollection.deleteMany({
+      parentId: commentID_s,
+    });
+    if (deleteAllChild.deletedCount <= 0) {
+      throw {
+        statusCode: 500,
+        error: `Unable to delete comment from the database`,
+      };
+    }
+  }
+
   //delete the object with commentId
   const deleteObj = await commentsCollection.deleteOne({ _id: commentId });
   if (deleteObj.deletedCount !== 1) {
@@ -51,8 +75,6 @@ const editComments = async (commentId, text) => {
     };
   }
   fetchagain._id = fetchagain._id.toString();
-  fetchagain.movieId = fetchagain.movieId.toString();
-  fetchagain.userId = fetchagain.userId.toString();
 
   return fetchagain;
 };
@@ -63,7 +85,6 @@ const getAllComments = async (movieId) => {
   const commentsCollection = await comments();
 
   //fetch all the comments with movieId;
-  movieId = new ObjectId(movieId);
 
   let comment_arr = await commentsCollection
     .find({ movieId: movieId })
@@ -90,8 +111,6 @@ const createParentComment = async (
   console.log(userId);
   console.log(username);
   console.log(body);
-  movieId = new ObjectId(movieId);
-  userId = new ObjectId(userId);
 
   const commentsCollections = await comments();
   const ParentComment = {
@@ -122,8 +141,6 @@ const createParentComment = async (
     };
   }
   fetchagain._id = fetchagain._id.toString();
-  fetchagain.movieId = fetchagain.movieId.toString();
-  fetchagain.userId = fetchagain.userId.toString();
 
   return fetchagain;
 };

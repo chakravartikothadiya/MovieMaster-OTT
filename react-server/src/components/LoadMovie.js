@@ -38,7 +38,9 @@ export default function LoadMovie() {
           description={movie.overview}
         />
       )}
-      <Comments currentUserId="6397bd1144507f75ce38a1a5" />
+      {movie && (
+        <Comments currentUserId="6397bd1144507f75ce38a1a5" movieId={movie.id} />
+      )}
       {/* <Footer /> */}
     </div>
   );

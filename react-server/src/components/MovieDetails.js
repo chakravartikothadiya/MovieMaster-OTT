@@ -5,7 +5,7 @@ import "../static/css/MovieDetails.css";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 export default function Detail(props) {
-  let movieId;
+  let mvId = props.id.toString();
   let userId;
   const API_URL = "https://api.themoviedb.org/3";
 
@@ -24,11 +24,7 @@ export default function Detail(props) {
     if (isLiked) {
       setisLiked(false);
       setLikes(likes - 1);
-      setDBLikesDislike(
-        "634f172e461a102907ecbdbb",
-        "6397bd1144507f75ce38a1a5",
-        null
-      );
+      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", null);
     } else {
       if (isDisliked) {
         setisDisliked(false);
@@ -36,11 +32,7 @@ export default function Detail(props) {
       }
       setisLiked(true);
       setLikes(likes + 1);
-      setDBLikesDislike(
-        "634f172e461a102907ecbdbb",
-        "6397bd1144507f75ce38a1a5",
-        "like"
-      );
+      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", "like");
     }
   };
 
@@ -48,11 +40,7 @@ export default function Detail(props) {
     if (isDisliked) {
       setisDisliked(false);
       setDislikes(dislikes - 1);
-      setDBLikesDislike(
-        "634f172e461a102907ecbdbb",
-        "6397bd1144507f75ce38a1a5",
-        null
-      );
+      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", null);
     } else {
       if (isLiked) {
         setisLiked(false);
@@ -60,11 +48,7 @@ export default function Detail(props) {
       }
       setisDisliked(true);
       setDislikes(dislikes + 1);
-      setDBLikesDislike(
-        "634f172e461a102907ecbdbb",
-        "6397bd1144507f75ce38a1a5",
-        "dislike"
-      );
+      setDBLikesDislike(mvId, "6397bd1144507f75ce38a1a5", "dislike");
     }
   };
 
@@ -89,11 +73,10 @@ export default function Detail(props) {
   };
 
   const fetchLikesDislikes = async () => {
-    movieId = "634f172e461a102907ecbdbb";
     userId = "6397bd1144507f75ce38a1a5";
     const response = await axios.get("http://localhost:8000/likes/", {
       params: {
-        movieId: movieId,
+        movieId: mvId,
         userId: userId,
       },
     });
@@ -120,10 +103,9 @@ export default function Detail(props) {
   };
 
   const getDBTotalLikesDislikes = async () => {
-    movieId = "634f172e461a102907ecbdbb";
     const response = await axios.get("http://localhost:8000/likes/totallikes", {
       params: {
-        movieId: movieId,
+        movieId: mvId,
       },
     });
     let result = response.data;
