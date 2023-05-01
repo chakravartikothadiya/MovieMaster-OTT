@@ -28,7 +28,7 @@ function Genre() {
             }
           });
           if (genreName!= undefined){
-            let recommend = await axios.get(`http://localhost:8000/recommend/${genreName}/6`)
+            let recommend = await axios.get(`http://localhost:8000/recommend/genres/${genreName}/6`)
             setRecommenderData(recommend.data)
           }
         } catch (e) {
