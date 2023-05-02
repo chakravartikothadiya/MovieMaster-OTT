@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import "../App.css";
 import axios from "axios";
 import Home from "./Home";
@@ -19,9 +19,11 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { AuthContext } from "../UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -70,6 +72,9 @@ const Login = () => {
       // check!
       if (response && !response.data.code) {
         console.log(response);
+        const {login, emailID, uid} = response.data
+        const obj = {login, emailID, uid}
+        setCurrentUser(obj)
         localStorage.setItem(
           "session_auth",
           JSON.stringify(response.data.login)
@@ -86,6 +91,8 @@ const Login = () => {
         setUsersession(response.data);
         // console.log(response.data);
         setRedirect(true);
+        navigate('/', { state: { user_session: user_session } });
+        
       } else {
         if (response.data.code == "auth/invalid-email") setInvalidEmail(true);
         if (
@@ -102,16 +109,20 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (redirect) {
-      navigate("/", { state: { user_session: user_session } });
-    }
-  }, [redirect]);
+    useEffect(() => {
+      console.log({currentUser})
+  }, [currentUser]);
+  // useEffect(() => {
+  //   if (redirect) {
+  //     navigate("/", { state: { user_session: user_session } });
+  //   }
+  // }, [redirect]);
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
   return localStorage.getItem("session_auth") ? (
-    (window.location.pathname = "/")
+    // (window.location.pathname = "/")
+    <div></div>
   ) : // <Home />
   expired && expired ? (
     <div style={{ color: "white" }}>{msg_exp}</div>

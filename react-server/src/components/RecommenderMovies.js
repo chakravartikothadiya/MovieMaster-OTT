@@ -21,6 +21,7 @@ function RecommenderMovies({movies}) {
             alt={movie?.title || movie?.name || movie?.original_name} />
           </div>
         ))}
+        {movies ? null : <p>No Recommendation</p>}
       </div>
     </>
   )

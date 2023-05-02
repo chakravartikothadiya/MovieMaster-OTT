@@ -1,37 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardContent, Typography } from "@mui/material";
-import axios from "axios";
-import { Link, Navigate } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
-import io from "socket.io-client";
-import Chatroom from "./Chatroom";
-import Navbar from "./Navbar";
+import React, { useContext } from "react";
 import HomeBanner from "./HomeBanner";
 import CategoryRows from "./CategoryRows";
-import Genre from "./Genre";
 import Footer from "./Footer/Footer";
-import Login from "./Login";
-import Expire from "./Expire";
+import { AuthContext } from "../UserContext";
+
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 function Home() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  let session = location.state && location.state.user_session;
-  console.log(session);
-  let userId = session && session.uid;
-  let email = session && session.emailID;
-  let username = email && email.split("@").shift();
-  console.log("Inside HOME", username);
-  userId = userId && userId.toString();
+  //const user = useContext(UserContext);
 
-  useEffect(() => {
-    if (session === null || localStorage.getItem("session_auth") == null) {
-      localStorage.clear();
-      navigate("/login", { state: { expired: true } });
-    }
-  }, [session, localStorage.getItem("session_auth")]);
-
+  const [currentUser] = useContext(AuthContext)
+  const {login, uid, emailID} = currentUser
+  let userId = uid
+  let username =emailID
   return (
     <div>
       <div>
