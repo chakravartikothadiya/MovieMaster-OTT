@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import axios from "axios";
+import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
+import Chatroom from "./Chatroom";
+import { Link, useNavigate } from "react-router-dom";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
+const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
   let mvId = props.id.toString();
   let usrId = props.userId;
+  const navigate = useNavigate();
   console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
+  const [chat, setChat] = useState(false);
+  const [roomName, setroomName] = useState("");
+  const [chatclosecounter, setChatclosecounter] = useState(1);
 
   // const [selectedData, setselectedData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -118,6 +126,21 @@ export default function Detail(props) {
     setDislikes(result.dislikes);
   };
 
+  // join room function
+  const join_room = (e, MovieName) => {
+    e.preventDefault();
+    setChatclosecounter(chatclosecounter + 1);
+    if (chatclosecounter % 2 == 0) {
+      setChat(false);
+    } else {
+      console.log("inside Onclick");
+      // session = session;
+      setroomName(MovieName);
+      socket.emit("join_room", MovieName);
+      setChat(true);
+    }
+  };
+
   useEffect(
     () => {
       selectMovie();
@@ -128,6 +151,13 @@ export default function Detail(props) {
     isLiked,
     isDisliked
   );
+
+  useEffect(() => {
+    if (localStorage.getItem("session_auth") == null) {
+      console.log("in here");
+      navigate("/login", { state: { session_expired: true } });
+    }
+  }, [chatclosecounter, playtrailer, isLiked, isDisliked, chat]);
 
   const renderTrailer = () => {
     const opts = {
@@ -199,6 +229,14 @@ export default function Detail(props) {
           >
             Dislike {dislikes}
           </button>
+          <button
+            className={
+              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
+            }
+            onClick={(e) => join_room(e, props.title)}
+          >
+            CHAT
+          </button>
           <div className="movie-thumbnail-bottom-fade"></div>
         </div>
       )}
@@ -216,6 +254,14 @@ export default function Detail(props) {
           <div className="movie-season">Release Date: {props.release}</div>
         </div>
       </div>
+      {chat && (
+        <Chatroom
+          socket={socket}
+          username={props.username}
+          room={roomName}
+          toggle={true}
+        />
+      )}
     </div>
   );
 }

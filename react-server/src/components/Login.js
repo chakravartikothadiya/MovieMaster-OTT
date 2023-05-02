@@ -28,6 +28,12 @@ const Login = () => {
   const [user_session, setUsersession] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [auth, setAuth] = useState(false);
+  const [session_exists, setSessionExists] = useState(false);
+  const location = useLocation();
+  let expired = location.state && location.state.expired;
+  let session_expired = location.state && location.state.session_expired;
+  const msg_exp =
+    "All your current sessions has been expired on this browser. Please Logout and Login again";
 
   const msg = useLocation().state;
 
@@ -50,6 +56,11 @@ const Login = () => {
     try {
       setInvalidEmail(false);
       setAuth(false);
+      setRedirect(false);
+
+      if (localStorage.getItem("session_auth") == "true") {
+        setSessionExists(true);
+      }
 
       // response will have a session containing emailID and "login" key with a boolean value.
       const response = await axios.post("http://localhost:8000/LoginForm", {
@@ -57,8 +68,8 @@ const Login = () => {
         password,
       });
       // check!
-      if (!response.data.code) {
-        // console.log(response);
+      if (response && !response.data.code) {
+        console.log(response);
         localStorage.setItem(
           "session_auth",
           JSON.stringify(response.data.login)
@@ -67,6 +78,11 @@ const Login = () => {
           "session_email",
           JSON.stringify(response.data.emailID)
         );
+        localStorage.setItem(
+          "session_userID",
+          JSON.stringify(response.data.uid)
+        );
+
         setUsersession(response.data);
         // console.log(response.data);
         setRedirect(true);
@@ -96,8 +112,10 @@ const Login = () => {
 
   return localStorage.getItem("session_auth") ? (
     (window.location.pathname = "/")
+  ) : // <Home />
+  expired && expired ? (
+    <div style={{ color: "white" }}>{msg_exp}</div>
   ) : (
-    // <Home />
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -115,6 +133,9 @@ const Login = () => {
           <Typography component="h1" variant="h5" className="Label">
             Login
           </Typography>
+          {session_expired && session_expired
+            ? "Your session was expired"
+            : null}
           <Box
             component="form"
             onSubmit={handleSubmit}
