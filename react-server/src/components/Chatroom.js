@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 function ChatRoom({ socket, username, room }) {
   const [currMessage, setcurrMessage] = useState("");
   const [messagelist, setMessagelist] = useState([]);
+  const navigate = useNavigate;
   //   let currentRoom = room;
   const sendMessage = async () => {
     if (currMessage !== "") {
@@ -19,6 +21,13 @@ function ChatRoom({ socket, username, room }) {
       setMessagelist((list) => [...list, messageData]);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("session_auth") == null) {
+      console.log("in here");
+      navigate("/login", { state: { session_expired: true } });
+    }
+  }, [localStorage.getItem("session_auth"), currMessage]);
 
   useEffect(() => {
     setMessagelist([]);
