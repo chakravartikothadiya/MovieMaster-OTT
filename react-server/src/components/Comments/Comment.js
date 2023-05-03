@@ -42,8 +42,8 @@ export default function Comment({
   const calculateNumberFromString = (inputString) => {
     // Convert input string to a number using a hash function
     let hash = 0;
-    if (inputString.length == 0) return hash;
-    for (let i = 0; i < inputString.length; i++) {
+    if (inputString?.length == 0) return hash;
+    for (let i = 0; i < inputString?.length; i++) {
       let char = inputString.charCodeAt(i);
       hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer

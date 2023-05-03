@@ -11,8 +11,7 @@ import styles from "./Comments.module.css";
 import CommentFrom from "./CommentForm";
 
 export default function Comments({ currentUserId, username, movieId }) {
-  console.log("userId", currentUserId);
-  console.log("movieId", movieId);
+  console.log("username", username);
   let userId = currentUserId;
   movieId = movieId.toString();
   const [backendComments, setbackendComments] = useState([]);

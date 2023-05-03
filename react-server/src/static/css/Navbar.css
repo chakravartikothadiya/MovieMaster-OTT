@@ -1,7 +1,7 @@
 .nav {
     padding-right: 20px;
     width: 100%;
-    height: 30px;
+    height: 80px;
     top: 0;
     position: fixed;
     z-index: 1;
@@ -17,6 +17,12 @@
     padding-left: 20px;
     cursor: pointer;
     left: 48px;
+}
+
+.logoutButton {
+    position: fixed;
+    right: 100px;
+    margin-top: -35px;
 }
 
 .avatar {
@@ -37,8 +43,37 @@
 .navContent {
     display: flex;
     justify-content: space-between;
+    align-items: center; 
+    margin: 0 auto; 
 }
 
 .menu {
     padding-top: 20px;
 }
+
+.searchBox {
+    margin-top: -35px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .searchBox input[type="text"] {
+    border: none;
+    padding: 5px;
+    margin-right: 10px;
+    width: 200px;
+    height: 25px;
+    font-size: 16px;
+  }
+  
+  .searchBox button {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
