@@ -7,12 +7,13 @@ import { AuthContext } from "../UserContext";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 function Home() {
-  //const user = useContext(UserContext);
-
-  const [currentUser] = useContext(AuthContext)
-  const {login, uid, emailID} = currentUser
-  let userId = uid
-  let username =emailID
+  const [currentUser] = useContext(AuthContext);
+  console.log({ currentUser });
+  const login = currentUser && currentUser.login;
+  const uid = currentUser && currentUser.uid;
+  const emailID = currentUser && currentUser.emailId;
+  let userId = uid;
+  let username = emailID;
   return (
     <div>
       <div>

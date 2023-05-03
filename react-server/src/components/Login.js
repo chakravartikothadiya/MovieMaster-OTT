@@ -39,8 +39,8 @@ const Login = () => {
 
   const msg = useLocation().state;
 
-  console.log(typeof window.location.pathname);
-  console.log(localStorage.getItem("session_auth"));
+  // console.log(typeof window.location.pathname);
+  // console.log(localStorage.getItem("session_auth"));
   if (localStorage.getItem("session_auth") == "true") {
     if (
       window.location.pathname === "/login" ||
@@ -72,9 +72,9 @@ const Login = () => {
       // check!
       if (response && !response.data.code) {
         console.log(response);
-        const {login, emailID, uid} = response.data
-        const obj = {login, emailID, uid}
-        setCurrentUser(obj)
+        const { login, emailID, uid } = response.data;
+        const obj = { login, emailID, uid };
+        setCurrentUser(obj);
         localStorage.setItem(
           "session_auth",
           JSON.stringify(response.data.login)
@@ -89,10 +89,10 @@ const Login = () => {
         );
 
         setUsersession(response.data);
+        console.log(currentUser);
         // console.log(response.data);
         setRedirect(true);
-        navigate('/', { state: { user_session: user_session } });
-        
+        navigate("/", { state: { user_session: user_session } });
       } else {
         if (response.data.code == "auth/invalid-email") setInvalidEmail(true);
         if (
@@ -109,9 +109,9 @@ const Login = () => {
     }
   };
 
-    useEffect(() => {
-      console.log({currentUser})
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log({ currentUser });
+  // }, [currentUser]);
   // useEffect(() => {
   //   if (redirect) {
   //     navigate("/", { state: { user_session: user_session } });
