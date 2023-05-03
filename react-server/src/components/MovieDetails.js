@@ -42,6 +42,7 @@ export default function Detail(props) {
   const [isLiked, setisLiked] = useState(false);
   const [isDisliked, setisDisliked] = useState(false);
 
+  const handlesave = async () => {};
   const handlelike = async () => {
     if (isLiked) {
       setisLiked(false);
@@ -234,7 +235,9 @@ export default function Detail(props) {
           >
             Play
           </button>
-          <button className="movie-save-button">Save</button>
+          <button className="movie-save-button" onClick={handlesave}>
+            Save
+          </button>
           <button
             className={isLiked ? "movie-like-button-on" : "movie-like-button"}
             onClick={handlelike}
