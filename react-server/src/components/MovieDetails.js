@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../UserContext";
 import YouTube from "react-youtube";
 import axios from "axios";
 import io from "socket.io-client";
@@ -6,6 +7,7 @@ import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
 import { Link, useNavigate } from "react-router-dom";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
+
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
@@ -17,6 +19,8 @@ export default function Detail(props) {
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
   const [chatclosecounter, setChatclosecounter] = useState(1);
+  const [currentUser] = useContext(AuthContext);
+  let chat_uname = currentUser && currentUser.emailId.split("@")[0];
 
   // const [selectedData, setselectedData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -257,7 +261,7 @@ export default function Detail(props) {
       {chat && (
         <Chatroom
           socket={socket}
-          username={props.username}
+          username={localStorage.getItem("session_email").split("@")[0]}
           room={roomName}
           toggle={true}
         />
