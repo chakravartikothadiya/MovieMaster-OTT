@@ -7,7 +7,7 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 export default function Detail(props) {
   let mvId = props.id.toString();
   let usrId = props.userId;
-  console.log("In Detail");
+  console.log("In Detail", props);
   const API_URL = "https://api.themoviedb.org/3";
 
   // const [selectedData, setselectedData] = useState(null);
@@ -21,6 +21,7 @@ export default function Detail(props) {
   const [isLiked, setisLiked] = useState(false);
   const [isDisliked, setisDisliked] = useState(false);
 
+  const handlesave = async () => {};
   const handlelike = async () => {
     if (isLiked) {
       setisLiked(false);
@@ -184,7 +185,9 @@ export default function Detail(props) {
           >
             Play
           </button>
-          <button className="movie-save-button">Save</button>
+          <button className="movie-save-button" onClick={handlesave}>
+            Save
+          </button>
           <button
             className={isLiked ? "movie-like-button-on" : "movie-like-button"}
             onClick={handlelike}
