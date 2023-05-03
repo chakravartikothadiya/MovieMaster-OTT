@@ -9,6 +9,7 @@ import Home from "./components/Home";
 import Genre from "./components/Genre";
 import Navbar from "./components/Navbar";
 import LoadMovie from "./components/LoadMovie";
+import SearchPage from "./components/SearchPage";
 
 //Gloabal Variable
 window.myGlobalUserId = null;
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/genre/:id" element={<Genre />} />
             <Route path="/movie/:id" element={<LoadMovie />} />
+            <Route path="/search" element={<SearchPage/>}/>
           </Route>
           <Route exact path="/resetpass" element={<Passreset />} />
         </Routes>
