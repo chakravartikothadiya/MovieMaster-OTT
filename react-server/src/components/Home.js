@@ -20,7 +20,7 @@ function Home() {
         <br />
         <div className="home">
           <HomeBanner
-            fetchURL={`https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_networks=213`}
+            fetchURL={`https://api.themoviedb.org/3//movie/top_rated?api_key=${API_KEY}&language=en-US`}
           />
           <CategoryRows
             title="Trending Now"
