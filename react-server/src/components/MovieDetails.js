@@ -16,14 +16,10 @@ export default function Detail(props) {
   const login = currentUser && currentUser.login;
   const uid = currentUser && currentUser.uid;
   const emailID = currentUser && currentUser.emailID;
-  // let userId = uid;
   let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
-  console.log("cccc", currentUser);
   let mvId = props.id?.toString();
   let usrId = uid?.toString();
-  console.log("username in details", username);
   const navigate = useNavigate();
-  console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
@@ -31,7 +27,6 @@ export default function Detail(props) {
 
   const [recommenderData, setRecommenderData] = useState([]);
 
-  // const [selectedData, setselectedData] = useState(null);
   const [trailer, setTrailer] = useState(null);
 
   const [playtrailer, setplaytrailer] = useState(false);
@@ -42,7 +37,18 @@ export default function Detail(props) {
   const [isLiked, setisLiked] = useState(false);
   const [isDisliked, setisDisliked] = useState(false);
 
-  const handlesave = async () => {};
+  const handlesave = async () => {
+    const mylistresponse = await axios.post(
+      `http://localhost:8000/profilepage`,
+      {
+        movieId: mvId,
+        moviePoster: props.poster,
+        movieName: props.title,
+        userId: usrId,
+      }
+    );
+  };
+  console.log("props", props);
   const handlelike = async () => {
     if (isLiked) {
       setisLiked(false);
