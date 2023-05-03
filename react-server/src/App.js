@@ -42,7 +42,7 @@ function App() {
       <div className="app">
         <Navbar />
         <Routes>
-          <Route path="/login" element={access() ? <Login /> : <Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegistrationForm />} />
           {/* The Routes from here on will be protected Routes. All routes expect Login and Register and in futuer Forgot password will be only non protected routes */}
 
@@ -50,7 +50,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/genre/:id" element={<Genre />} />
             <Route path="/movie/:id" element={<LoadMovie />} />
-            <Route path="/search" element={<SearchPage/>}/>
+            <Route path="/search" element={<SearchPage />} />
           </Route>
           <Route exact path="/resetpass" element={<Passreset />} />
         </Routes>

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import Detail from "./MovieDetails";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ export default function LoadMovie() {
   const uid = currentUser && currentUser.uid;
   const emailID = currentUser && currentUser.emailID;
   let usrId = uid?.toString();
-  let username = emailID?.split("@")[0].split('"')[1].toString();
+  let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
   const { id } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
   const [movie, setMovie] = useState(null);
