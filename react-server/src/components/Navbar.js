@@ -11,8 +11,7 @@ function Navbar() {
   let userId;
   let email;
   let username;
-  if(location.pathname==='/')
-  {
+  if (location.pathname === "/") {
     session = location.state && location.state.user_session;
     console.log(session);
     userId = session && session.uid;
@@ -39,6 +38,7 @@ function Navbar() {
       const response = await axios.post("http://localhost:8000/Logout");
       console.log(response);
       localStorage.clear();
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -54,47 +54,57 @@ function Navbar() {
     return () => window.removeEventListener("scroll", navbartransition);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     geturl();
-  },[location.pathname])
+  }, [location.pathname]);
 
-  const geturl = async() =>{
-  console.log(location.pathname);
-  if(location.pathname==='/' || location.pathname==='/search')
-  {
-    setDisplaySearchbar(true);
-  }
-  else
-  {
-    setDisplaySearchbar(false);
-  }
-  }
+  const geturl = async () => {
+    console.log(location.pathname);
+    if (location.pathname === "/" || location.pathname === "/search") {
+      setDisplaySearchbar(true);
+    } else {
+      setDisplaySearchbar(false);
+    }
+  };
 
-  const handleSearch = (event) =>{
+  const handleSearch = (event) => {
     setSearchKey(event.currentTarget.value);
-    if(event.currentTarget.value)
-    {
-      navigate('/search', {state: { skey: event.currentTarget.value, userId:userId, username:username}});
+    if (event.currentTarget.value) {
+      navigate("/search", {
+        state: {
+          skey: event.currentTarget.value,
+          userId: userId,
+          username: username,
+        },
+      });
+    } else {
+      navigate("/");
     }
-    else
-    {
-      navigate('/');
-    }
-  }
+  };
 
   return (
     <div className={`nav ${showBlack && "navBlack"}`}>
       <Sidebar />
       <div className="navContent">
-        <img className="logo" src={logo} alt="MovieMaster"    onClick={() =>
-              navigate(`/`)
-            } />
-       { displaySearchbar && (<div className="searchBox">
-          <input type="text" placeholder="Search..." onChange={handleSearch}/>
-          <button>Search</button>
-        </div>)}
+        <img
+          className="logo"
+          src={logo}
+          alt="MovieMaster"
+          onClick={() => navigate(`/`)}
+        />
+        {displaySearchbar && (
+          <div className="searchBox">
+            <input
+              type="text"
+              placeholder="Search..."
+              onChange={handleSearch}
+            />
+            <button>Search</button>
+          </div>
+        )}
         {logoutButton == "true" ? (
-          <button className="logoutButton"
+          <button
+            className="logoutButton"
             onClick={() => {
               handleClick();
               setLogoutButton(false);

@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
 import { Link, useNavigate } from "react-router-dom";
-import RecommenderMovies from './RecommenderMovies';
+import RecommenderMovies from "./RecommenderMovies";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 const socket = io.connect("http://localhost:8000");
@@ -17,11 +17,11 @@ export default function Detail(props) {
   const uid = currentUser && currentUser.uid;
   const emailID = currentUser && currentUser.emailID;
   // let userId = uid;
-  let username = emailID?.split("@")[0].split('"')[1].toString();
-  console.log("cccc",currentUser)
-  let mvId = props.id.toString();
+  let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
+  console.log("cccc", currentUser);
+  let mvId = props.id?.toString();
   let usrId = uid?.toString();
-  console.log("username in details", username)
+  console.log("username in details", username);
   const navigate = useNavigate();
   console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
@@ -96,10 +96,12 @@ export default function Detail(props) {
   };
 
   const fetchRecommendedMovies = async () => {
-    const response = await axios.get(`http://localhost:8000/recommend/movies/${props.title}/5`);
-    if (!response.data) setRecommenderData([])
-    setRecommenderData(response.data)
-  }
+    const response = await axios.get(
+      `http://localhost:8000/recommend/movies/${props.title}/5`
+    );
+    if (!response.data) setRecommenderData([]);
+    setRecommenderData(response.data);
+  };
 
   const fetchLikesDislikes = async () => {
     const response = await axios.get("http://localhost:8000/likes/", {
@@ -278,7 +280,9 @@ export default function Detail(props) {
         </div>
       </div>
       <div>
-      {recommenderData.length != 0 ? <RecommenderMovies movies={recommenderData} /> : null }  
+        {recommenderData.length != 0 ? (
+          <RecommenderMovies movies={recommenderData} />
+        ) : null}
       </div>
       {chat && (
         <Chatroom
