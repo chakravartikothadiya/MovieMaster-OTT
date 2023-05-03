@@ -2,11 +2,28 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import "../static/css/Navbar.css";
 import logo from "../logo.png";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Navbar() {
+  const location = useLocation();
+  let session;
+  let userId;
+  let email;
+  let username;
+  if(location.pathname==='/')
+  {
+    session = location.state && location.state.user_session;
+    console.log(session);
+    userId = session && session.uid;
+    email = session && session.emailID;
+    username = email && email.split("@").shift();
+  }
+
   const [showBlack, setShowDark] = useState(false);
+  const [serKey, setSearchKey] = useState("");
+
+  const [displaySearchbar, setDisplaySearchbar] = useState(false);
   const navigate = useNavigate();
   const [logoutButton, setLogoutButton] = useState("false");
   const navbartransition = () => {
@@ -37,18 +54,47 @@ function Navbar() {
     return () => window.removeEventListener("scroll", navbartransition);
   }, []);
 
+  useEffect(()=>{
+    geturl();
+  },[location.pathname])
+
+  const geturl = async() =>{
+  console.log(location.pathname);
+  if(location.pathname==='/' || location.pathname==='/search')
+  {
+    setDisplaySearchbar(true);
+  }
+  else
+  {
+    setDisplaySearchbar(false);
+  }
+  }
+
+  const handleSearch = (event) =>{
+    setSearchKey(event.currentTarget.value);
+    if(event.currentTarget.value)
+    {
+      navigate('/search', {state: { skey: event.currentTarget.value, userId:userId, username:username}});
+    }
+    else
+    {
+      navigate('/');
+    }
+  }
+
   return (
     <div className={`nav ${showBlack && "navBlack"}`}>
       <Sidebar />
       <div className="navContent">
-        <img className="logo" src={logo} alt="MovieMaster" />
-        <img
-          className="avatar"
-          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-          alt="Avatar"
-        />
+        <img className="logo" src={logo} alt="MovieMaster"    onClick={() =>
+              navigate(`/`)
+            } />
+       { displaySearchbar && (<div className="searchBox">
+          <input type="text" placeholder="Search..." onChange={handleSearch}/>
+          <button>Search</button>
+        </div>)}
         {logoutButton == "true" ? (
-          <button
+          <button className="logoutButton"
             onClick={() => {
               handleClick();
               setLogoutButton(false);
@@ -58,6 +104,11 @@ function Navbar() {
             Logout
           </button>
         ) : null}
+        <img
+          className="avatar"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+          alt="Avatar"
+        />
       </div>
     </div>
   );
