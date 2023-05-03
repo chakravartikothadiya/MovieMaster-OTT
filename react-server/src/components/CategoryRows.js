@@ -4,11 +4,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 function CategoryRows({
-  userId,
-  username,
   title,
   fetchUrl,
-  isOriginalRow = true,
 }) {
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
@@ -26,24 +23,27 @@ function CategoryRows({
     <div className="categoryRows">
       <h2>{title}</h2>
       <div className="categoryRowsthumbnails">
-        {movies.map((movie) => (
-          <div
-            className={`${isOriginalRow && "OriginalThumbnail"}`}
-            onClick={() =>
-              navigate(`/movie/${movie.id}/`, {
-                state: { userId: userId, username: username },
-              })
-            }
-          >
-            <img
-              width={135}
-              height={200}
+        {movies.map((movie) => {
+          if (!movie.poster_path && !movie.backdrop_path) {
+            return null; // Skip rendering the movie if both poster_path and backdrop_path are null
+          }
+          return (
+            <div
+              className="OriginalThumbnail"
+              onClick={() =>
+                navigate(`/movie/${movie.id}/`)
+              }
               key={movie.id}
-              src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
-              alt={movie?.title || movie?.name || movie?.original_name}
-            />
-          </div>
-        ))}
+            >
+              <img
+                width={135}
+                height={200}
+                src={`https://image.tmdb.org/t/p/original/${movie?.poster_path || movie?.backdrop_path}`}
+                alt={movie?.title || movie?.name || movie?.original_name}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

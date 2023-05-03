@@ -8,14 +8,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     //check user currentuser = null
     //localstorage
-    if (currentUser === null) {
-      if (localStorage.getItem("session_auth") === true) {
+    if (currentUser == null) {
+      console.log("local: ",localStorage["session_auth"])
+      if (localStorage["session_auth"] == "true") {
         let obj = {
-          login: localStorage.getItem("session_auth"),
-          uid: localStorage.getItem("session_userID"),
-          emailID: localStorage.getItem("session_email"),
+          login: localStorage["session_auth"],
+          uid: localStorage["session_userID"],
+          emailID: localStorage["session_email"],
         };
         setCurrentUser(obj);
+        console.log(obj)
+        console.log("current: ",currentUser)
       }
     }
   }, [currentUser]);

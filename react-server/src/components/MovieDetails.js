@@ -6,21 +6,30 @@ import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
 import { Link, useNavigate } from "react-router-dom";
+import RecommenderMovies from './RecommenderMovies';
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
+  const [currentUser] = useContext(AuthContext);
+  const login = currentUser && currentUser.login;
+  const uid = currentUser && currentUser.uid;
+  const emailID = currentUser && currentUser.emailID;
+  // let userId = uid;
+  let username = emailID?.split("@")[0].split('"')[1].toString();
+  console.log("cccc",currentUser)
   let mvId = props.id.toString();
-  let usrId = props.userId;
+  let usrId = uid?.toString();
+  console.log("username in details", username)
   const navigate = useNavigate();
   console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
   const [chatclosecounter, setChatclosecounter] = useState(1);
-  const [currentUser] = useContext(AuthContext);
-  let chat_uname = currentUser && currentUser.emailId.split("@")[0];
+
+  const [recommenderData, setRecommenderData] = useState([]);
 
   // const [selectedData, setselectedData] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -84,6 +93,12 @@ export default function Detail(props) {
     );
     setTrailer(trl);
   };
+
+  const fetchRecommendedMovies = async () => {
+    const response = await axios.get(`http://localhost:8000/recommend/movies/${props.title}/5`);
+    if (!response.data) setRecommenderData([])
+    setRecommenderData(response.data)
+  }
 
   const fetchLikesDislikes = async () => {
     const response = await axios.get("http://localhost:8000/likes/", {
@@ -150,6 +165,7 @@ export default function Detail(props) {
       selectMovie();
       fetchLikesDislikes();
       getDBTotalLikesDislikes();
+      fetchRecommendedMovies();
     },
     [props.id],
     isLiked,
@@ -258,10 +274,13 @@ export default function Detail(props) {
           <div className="movie-season">Release Date: {props.release}</div>
         </div>
       </div>
+      <div>
+      {recommenderData.length != 0 ? <RecommenderMovies movies={recommenderData} /> : null }  
+      </div>
       {chat && (
         <Chatroom
           socket={socket}
-          username={localStorage.getItem("session_email").split("@")[0]}
+          username={username}
           room={roomName}
           toggle={true}
         />

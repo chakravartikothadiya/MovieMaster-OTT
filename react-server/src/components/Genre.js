@@ -10,7 +10,7 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY
 function Genre() {
   const { id } = useParams();
   const [genreData, setGenreData] = useState();
-  const [recommenderData, setRecommenderData] = useState();
+  const [recommenderData, setRecommenderData] = useState([]);
 
   const fetchData = useCallback(
       async() => {
@@ -29,13 +29,14 @@ function Genre() {
           });
           if (genreName!= undefined){
             let recommend = await axios.get(`http://localhost:8000/recommend/genres/${genreName}/6`)
+            if (!recommend.data) setRecommenderData([])
             setRecommenderData(recommend.data)
           }
         } catch (e) {
           console.log(e)
         }
       },
-      [id]
+      [id, , recommenderData]
     ) 
 
   useEffect(()=>{
@@ -46,7 +47,7 @@ function Genre() {
     <div>
         <HomeBanner fetchURL = {`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${id}`} />
         <GenreMovies movies={genreData} />
-        <RecommenderMovies movies={recommenderData} />
+        {recommenderData.length != 0 ? <RecommenderMovies movies={recommenderData} /> : null } 
     </div>
   )
 }
