@@ -12,6 +12,7 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
+  console.log("props", props);
   const [currentUser] = useContext(AuthContext);
   const login = currentUser && currentUser.login;
   const uid = currentUser && currentUser.uid;

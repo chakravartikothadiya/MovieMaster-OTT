@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function GenreMovies({ movies }) {
   console.log("props", movies, typeof movies);
+
   const navigate = useNavigate();
   return (
     <div className="cardLayout">
