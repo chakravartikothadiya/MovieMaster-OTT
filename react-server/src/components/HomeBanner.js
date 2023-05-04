@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "../static/css/HomeBanner.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import YouTube from "react-youtube";
 
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 function HomeBanner({ fetchURL }) {
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState([]);
   const API_URL = "https://api.themoviedb.org/3";
   const [movie, setMovie] = useState([]);
   const [trailer, setTrailer] = useState(null);
@@ -27,7 +31,6 @@ function HomeBanner({ fetchURL }) {
     }
     fetchData();
     selectMovie();
-    console.log("INDEDEKDMKEMENIJFEJFNJEKFNEJKFNEKF", movie);
   }, [fetchURL]);
 
   const fetchMovieVideo = async (id) => {
@@ -111,7 +114,14 @@ function HomeBanner({ fetchURL }) {
               >
                 Play
               </button>
-              <button className="bannerButton">My List</button>
+            <button
+            className="bannerButton"
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
+            My List
+          </button>
             </>
             <h1 className="description">{truncate(movie?.overview, 200)}</h1>
           </div>
