@@ -11,7 +11,6 @@ function HomeBanner({ fetchURL }) {
   const navigate = useNavigate();
   const [movie, setMovie] = useState([]);
   const API_URL = "https://api.themoviedb.org/3";
-  const [movie, setMovie] = useState([]);
   const [trailer, setTrailer] = useState(null);
   const [playtrailer, setplaytrailer] = useState(false);
 
@@ -114,14 +113,14 @@ function HomeBanner({ fetchURL }) {
               >
                 Play
               </button>
-            <button
-            className="bannerButton"
-            onClick={() => {
-              navigate("/profile");
-            }}
-          >
-            My List
-          </button>
+              <button
+                className="bannerButton"
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
+                My List
+              </button>
             </>
             <h1 className="description">{truncate(movie?.overview, 200)}</h1>
           </div>
