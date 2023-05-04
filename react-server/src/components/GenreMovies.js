@@ -1,10 +1,9 @@
-import React from 'react'
-import '../static/css/GenreMovies.css'
+import React from "react";
+import "../static/css/GenreMovies.css";
 import { Link, useNavigate } from "react-router-dom";
 
 function GenreMovies({movies}) {
     const navigate = useNavigate();
-    console.log(movies)
     return (
         <div className='cardLayout'>
           {movies?.map(movie => {
@@ -13,7 +12,6 @@ function GenreMovies({movies}) {
             }
             return (
               <div
-              className='thumbnaildiv'
                 onClick={() =>
                   navigate(`/movie/${movie.id}/`)
                 }
@@ -24,7 +22,6 @@ function GenreMovies({movies}) {
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`} 
                   alt={movie?.title || movie?.name || movie?.original_name} 
                 />
-                <p className='titleBackdrop'>{movie.original_title}</p>
               </div>
             );
           })}
@@ -32,4 +29,4 @@ function GenreMovies({movies}) {
     )
 }
 
-export default GenreMovies
+export default GenreMovies;
