@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../UserContext";
+import "../static/css/HomeBanner.css";
 import YouTube from "react-youtube";
 import axios from "axios";
 import io from "socket.io-client";
@@ -237,25 +238,25 @@ export default function Detail(props) {
           <img src={props.poster} alt={props.title} />
           <h1 className="movie-title">{props.title}</h1>
           <button
-            className="movie-play-button"
+            className="movie-play-button bannerButton"
             onClick={() => {
               setplaytrailer(true);
             }}
           >
             Play
           </button>
-          <button className="movie-save-button" onClick={handlesave}>
+          <button className="movie-save-button bannerButton" onClick={handlesave}>
             Save
           </button>
           <button
-            className={isLiked ? "movie-like-button-on" : "movie-like-button"}
+            className={isLiked ? "movie-like-button-on bannerButton" : "movie-like-button bannerButton"}
             onClick={handlelike}
           >
             Like {likes}
           </button>
           <button
             className={
-              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
+              isDisliked ? "movie-dislike-button-on bannerButton" : "movie-dislike-button bannerButton"
             }
             onClick={handledislike}
           >
@@ -263,7 +264,7 @@ export default function Detail(props) {
           </button>
           <button
             className={
-              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
+              isDisliked ? "movie-dislike-button-on bannerButton" : "movie-dislike-button bannerButton"
             }
             onClick={(e) => join_room(e, props.title)}
           >
