@@ -5,7 +5,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Location } from "react-router-dom";
 import RecommenderMovies from "./RecommenderMovies";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
@@ -13,17 +13,24 @@ const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
   const [currentUser] = useContext(AuthContext);
-  const login = currentUser && currentUser.login;
-  const uid = currentUser && currentUser.uid;
-  const emailID = currentUser && currentUser.emailID;
-  // let userId = uid;
+  const login = currentUser.login;
+  const uid = currentUser.uid;
+  const emailID = currentUser.emailID;
+
   let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
-  console.log("cccc", currentUser);
+  // console.log("cccc", currentUser);
   let mvId = props.id?.toString();
   let usrId = uid?.toString();
-  console.log("username in details", username);
+
+  setTimeout(() => {
+    if (username == undefined || localStorage.getItem("session_auth") == null) {
+      window.location.reload();
+    }
+  }, 0);
+
+  // console.log("username in details", username);
   const navigate = useNavigate();
-  console.log("In Detail");
+  // console.log("In Detail");
   const API_URL = "https://api.themoviedb.org/3";
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
@@ -110,7 +117,7 @@ export default function Detail(props) {
         userId: usrId,
       },
     });
-    console.log(response.data);
+    // console.log(response.data);
     let status = response.data;
     if (status === "like") {
       setisLiked(true);
@@ -125,10 +132,10 @@ export default function Detail(props) {
   };
 
   const setDBLikesDislike = async (movieId, userId, value) => {
-    console.log("Inside HEr");
-    console.log(movieId);
-    console.log(userId);
-    console.log(value);
+    // console.log("Inside HEr");
+    // console.log(movieId);
+    // console.log(userId);
+    // console.log(value);
     const response = await axios.post("http://localhost:8000/likes/", {
       movieId,
       userId,
@@ -143,7 +150,7 @@ export default function Detail(props) {
       },
     });
     let result = response.data;
-    console.log(result);
+    // console.log(result);
     setLikes(result.likes);
     setDislikes(result.dislikes);
   };
@@ -155,7 +162,7 @@ export default function Detail(props) {
     if (chatclosecounter % 2 == 0) {
       setChat(false);
     } else {
-      console.log("inside Onclick");
+      // console.log("inside Onclick");
       // session = session;
       setroomName(MovieName);
       socket.emit("join_room", MovieName);
@@ -177,10 +184,10 @@ export default function Detail(props) {
 
   useEffect(() => {
     if (localStorage.getItem("session_auth") == null) {
-      console.log("in here");
+      // console.log("in here");
       navigate("/login", { state: { session_expired: true } });
     }
-  }, [chatclosecounter, playtrailer, isLiked, isDisliked, chat]);
+  }, [chatclosecounter, playtrailer, isLiked, isDisliked, chatclosecounter]);
 
   const renderTrailer = () => {
     const opts = {
