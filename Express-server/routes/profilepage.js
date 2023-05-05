@@ -6,10 +6,10 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      console.log("in get", req.query);
+      //   console.log("in get", req.query);
       let query = req.query;
       let MovieList = await profilepage.getAllmovies(query.userId);
-      console.log(MovieList);
+      //   console.log(MovieList);
       return res.json(MovieList[0]?.myList).status(200);
     } catch (e) {
       console.log(e);

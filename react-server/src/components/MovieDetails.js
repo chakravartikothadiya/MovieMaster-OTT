@@ -14,6 +14,7 @@ const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
   console.log("props", props);
+  const [listdataX, setlistdataX] = useState(0);
   const [currentUser] = useContext(AuthContext);
   const login = currentUser && currentUser.login;
   const uid = currentUser && currentUser.uid;
@@ -190,6 +191,15 @@ export default function Detail(props) {
     }
   }, [chatclosecounter, playtrailer, isLiked, isDisliked, chat]);
 
+  const listdata = async () => {
+    const list = await axios.get("http://localhost:3000/profilepage");
+    setlistdataX(list);
+  };
+
+  useEffect(() => {
+    listdata();
+  }, [listdataX]);
+
   const renderTrailer = () => {
     const opts = {
       playerVars: {
@@ -245,9 +255,11 @@ export default function Detail(props) {
           >
             Play
           </button>
-          <button className="movie-save-button bannerButton" onClick={handlesave}>
-            Save
-          </button>
+          {
+            <button className="movie-save-button" onClick={handlesave}>
+              Save
+            </button>
+          }
           <button
             className={isLiked ? "movie-like-button-on bannerButton" : "movie-like-button bannerButton"}
             onClick={handlelike}
