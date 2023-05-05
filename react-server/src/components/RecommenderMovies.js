@@ -11,7 +11,7 @@ function RecommenderMovies({movies}) {
       <div className='categoryRowsthumbnails'>
         {movies?.map(movie => (
           <div
-            className='OriginalThumbnail'
+            className='OriginalThumbnail thumbnaildiv'
             onClick={() => navigate(`/movie/${movie.id}/`)}
           >
             <img
@@ -19,6 +19,7 @@ function RecommenderMovies({movies}) {
             key = {movie.id}
             src={`https://image.tmdb.org/t/p/original/${movie?.image}`} 
             alt={movie?.title || movie?.name || movie?.original_name} />
+            <p className='titleBackdrop'>{movie.title}</p>
           </div>
         ))}
         {movies ? null : <p>No Recommendation</p>}

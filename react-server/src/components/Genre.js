@@ -36,11 +36,17 @@ function Genre() {
           console.log(e)
         }
       },
-      [id, , recommenderData]
+      [id, recommenderData]
     ) 
 
   useEffect(()=>{
+    console.log({recommenderData})
+  }, [recommenderData])
+  useEffect(()=>{
     fetchData();
+    return ()=>{
+      setRecommenderData([])
+    }
   }, [id])
 
   return (
