@@ -11,7 +11,7 @@ export default function Profilepage() {
   const [currentUser] = useContext(AuthContext);
   const [data, setdata] = useState(null);
   const uid = currentUser && currentUser.uid;
-  let userId = uid?.toString();
+  let userId = uid?.toString().split('"')[1];
   console.log("user", currentUser);
   const getdata = async () => {
     const response = await axios.get("http://localhost:8000/profilepage", {
