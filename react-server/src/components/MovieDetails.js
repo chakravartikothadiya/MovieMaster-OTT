@@ -8,6 +8,7 @@ import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
 import { Link, useNavigate } from "react-router-dom";
 import RecommenderMovies from "./RecommenderMovies";
+import { withTheme } from "@emotion/react";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 const socket = io.connect("http://localhost:8000");
@@ -123,9 +124,11 @@ export default function Detail(props) {
   const selectMovie = async () => {
     const data = await fetchMovieVideo(props.id);
     // setselectedData(data.videos.results);
-    const trl = data.videos.results.find(
-      (vid) => vid.name === "Official Trailer"
-    );
+    console.log("Inside selectMovie", data);
+    let trl = data.videos.results.find((vid) => vid.name.includes("Trailer"));
+    if (!trl) {
+      trl = data?.videos?.results[0];
+    }
     setTrailer(trl);
   };
 
@@ -251,7 +254,9 @@ export default function Detail(props) {
         />
       );
     }
-    return null;
+    return (
+      <h1 style={{ color: "white", marginTop: "300px" }}>No Video Available</h1>
+    );
   };
 
   return (
@@ -282,15 +287,17 @@ export default function Detail(props) {
           >
             Play
           </button>
+
           {currentmovieName == 0 ? (
-            <button className="movie-save-button" onClick={handlesave}>
+            <button className="movie-save-button bannerButton" onClick={handlesave}>
               Save
             </button>
           ) : (
-            <button className="movie-save-button" onClick={handleremove}>
+            <button className="movie-save-button bannerButton" onClick={handleremove}>
               UnSave
             </button>
           )}
+
           <button
             className={
               isLiked
