@@ -45,6 +45,7 @@ const addmovietolist = async (movieId, movieName, moviePoster, userId) => {
 
 const removemoviefromlist = async (movieId, userId) => {
   try {
+    console.log(movieId, userId);
     let movieList = await movies();
     let removemovie = await movieList.updateOne(
       { userId: userId },
