@@ -155,3 +155,10 @@
 .app {
   background-color: black;
 }
+
+.remove {
+  color: red;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
