@@ -13,8 +13,6 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
-  console.log("props", props);
-  const [listdataX, setlistdataX] = useState(0);
   const [currentUser] = useContext(AuthContext);
   const login = currentUser && currentUser.login;
   const uid = currentUser && currentUser.uid;
@@ -40,6 +38,9 @@ export default function Detail(props) {
   const [isLiked, setisLiked] = useState(false);
   const [isDisliked, setisDisliked] = useState(false);
 
+  const [listdataX, setlistdataX] = useState(0);
+  const [currentmovieName, setcurrentmovieName] = useState(0);
+
   const handlesave = async () => {
     const mylistresponse = await axios.post(
       `http://localhost:8000/profilepage`,
@@ -47,11 +48,35 @@ export default function Detail(props) {
         movieId: mvId,
         moviePoster: props.poster,
         movieName: props.title,
-        userId: usrId,
+        userId: usrId.split('"')[1],
       }
     );
+    setcurrentmovieName(
+      mylistresponse?.data[0]?.mylist?.map((e) => {
+        if (e.name == props.title) {
+          return e.name;
+        }
+      })
+    );
   };
-  console.log("props", props);
+
+  const handleremove = async () => {
+    const remove = await axios.delete("http://localhost:8000/profilepage", {
+      data: { movieId: props.id.toString(), userId: usrId.split('"')[1] },
+    });
+    if (remove?.data?.myList?.length != 0) {
+      setcurrentmovieName(
+        remove?.data?.myList?.map((e) => {
+          if (e.name == props.title) {
+            return e.name;
+          }
+        })
+      );
+    } else {
+      setcurrentmovieName(0);
+    }
+  };
+
   const handlelike = async () => {
     if (isLiked) {
       setisLiked(false);
@@ -119,7 +144,6 @@ export default function Detail(props) {
         userId: usrId,
       },
     });
-    console.log(response.data);
     let status = response.data;
     if (status === "like") {
       setisLiked(true);
@@ -134,10 +158,6 @@ export default function Detail(props) {
   };
 
   const setDBLikesDislike = async (movieId, userId, value) => {
-    console.log("Inside HEr");
-    console.log(movieId);
-    console.log(userId);
-    console.log(value);
     const response = await axios.post("http://localhost:8000/likes/", {
       movieId,
       userId,
@@ -152,7 +172,6 @@ export default function Detail(props) {
       },
     });
     let result = response.data;
-    console.log(result);
     setLikes(result.likes);
     setDislikes(result.dislikes);
   };
@@ -164,7 +183,6 @@ export default function Detail(props) {
     if (chatclosecounter % 2 == 0) {
       setChat(false);
     } else {
-      console.log("inside Onclick");
       // session = session;
       setroomName(MovieName);
       socket.emit("join_room", MovieName);
@@ -186,19 +204,28 @@ export default function Detail(props) {
 
   useEffect(() => {
     if (localStorage.getItem("session_auth") == null) {
-      console.log("in here");
       navigate("/login", { state: { session_expired: true } });
     }
   }, [chatclosecounter, playtrailer, isLiked, isDisliked, chat]);
 
-  const listdata = async () => {
-    const list = await axios.get("http://localhost:3000/profilepage");
+  const fetchlistdata = async () => {
+    const list = await axios.get("http://localhost:8000/profilepage", {
+      params: {
+        userId: usrId,
+      },
+    });
+
     setlistdataX(list);
+    listdataX?.data?.map((element) => {
+      if (element?.name == props.title) {
+        setcurrentmovieName(element?.name);
+      }
+    });
   };
 
   useEffect(() => {
-    listdata();
-  }, [listdataX]);
+    fetchlistdata();
+  }, []);
 
   const renderTrailer = () => {
     const opts = {
@@ -255,20 +282,30 @@ export default function Detail(props) {
           >
             Play
           </button>
-          {
+          {currentmovieName == 0 ? (
             <button className="movie-save-button" onClick={handlesave}>
               Save
             </button>
-          }
+          ) : (
+            <button className="movie-save-button" onClick={handleremove}>
+              UnSave
+            </button>
+          )}
           <button
-            className={isLiked ? "movie-like-button-on bannerButton" : "movie-like-button bannerButton"}
+            className={
+              isLiked
+                ? "movie-like-button-on bannerButton"
+                : "movie-like-button bannerButton"
+            }
             onClick={handlelike}
           >
             Like {likes}
           </button>
           <button
             className={
-              isDisliked ? "movie-dislike-button-on bannerButton" : "movie-dislike-button bannerButton"
+              isDisliked
+                ? "movie-dislike-button-on bannerButton"
+                : "movie-dislike-button bannerButton"
             }
             onClick={handledislike}
           >
@@ -276,7 +313,9 @@ export default function Detail(props) {
           </button>
           <button
             className={
-              isDisliked ? "movie-dislike-button-on bannerButton" : "movie-dislike-button bannerButton"
+              isDisliked
+                ? "movie-dislike-button-on bannerButton"
+                : "movie-dislike-button bannerButton"
             }
             onClick={(e) => join_room(e, props.title)}
           >
