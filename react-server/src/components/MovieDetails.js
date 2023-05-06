@@ -81,17 +81,7 @@ export default function Detail(props) {
       const remove = await axios.delete("http://localhost:8000/profilepage", {
         data: { movieId: props.id.toString(), userId: usrId.split('"')[1] },
       });
-      if (remove?.data?.myList?.length != 0) {
-        setcurrentmovieName(
-          remove?.data?.myList?.map((e) => {
-            if (e.name == props.title) {
-              return true;
-            }
-          })
-        );
-      } else {
-        setcurrentmovieName(false);
-      }
+      setcurrentmovieName(false);
     } catch (e) {
       console.log(e);
     }
