@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../static/css/HomeBanner.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import YouTube from "react-youtube";
 
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 function HomeBanner({ fetchURL }) {
-  const API_URL = "https://api.themoviedb.org/3";
+  const navigate = useNavigate();
   const [movie, setMovie] = useState([]);
+  const API_URL = "https://api.themoviedb.org/3";
   const [trailer, setTrailer] = useState(null);
   const [playtrailer, setplaytrailer] = useState(false);
 
@@ -16,19 +19,25 @@ function HomeBanner({ fetchURL }) {
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(fetchURL);
-      setMovie(
-        request.data.results[
-          Math.floor(Math.random() * request.data.results.length - 1)
-        ]
-      );
-      return request;
-    }
+    console.log("Inside useEffect");
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("Movie after setting:", movie);
     selectMovie();
-    console.log("INDEDEKDMKEMENIJFEJFNJEKFNEJKFNEKF", movie);
-  }, [fetchURL]);
+  }, [movie]);
+
+  async function fetchData() {
+    const request = await axios.get(fetchURL);
+    console.log("Inside first fetch request:", request);
+    setMovie(
+      request?.data?.results[
+        Math.floor(Math.random() * request.data.results.length - 1)
+      ]
+    );
+    return request;
+  }
 
   const fetchMovieVideo = async (id) => {
     const { data } = await axios.get(`${API_URL}/movie/${id}`, {
@@ -41,15 +50,25 @@ function HomeBanner({ fetchURL }) {
   };
 
   const selectMovie = async () => {
-    const data = await fetchMovieVideo(movie.id);
-    // setselectedData(data.videos.results);
-    const trl = data.videos.results.find(
-      (vid) => vid.name === "Official Trailer"
+    console.log(
+      "Before Calling the fetchVid in selectMovie move obj is:",
+      movie
     );
+    const data = await fetchMovieVideo(movie?.id);
+    // setselectedData(data.videos.results);
+    console.log("Data in SelectMovie", data);
+    let trl = data?.videos?.results?.find((vid) =>
+      vid.name.includes("Trailer")
+    );
+    if (!trl) {
+      trl = data?.videos?.results[0];
+    }
     setTrailer(trl);
   };
 
   const renderTrailer = () => {
+    console.log("Inside Render Function");
+    console.log("This is trailer object", trailer);
     const opts = {
       playerVars: {
         // https://developers.google.com/youtube/player_parameters
@@ -72,7 +91,9 @@ function HomeBanner({ fetchURL }) {
         />
       );
     }
-    return null;
+    return (
+      <h1 style={{ color: "white", marginTop: "300px" }}>No Video Available</h1>
+    );
   };
 
   return (
@@ -111,7 +132,14 @@ function HomeBanner({ fetchURL }) {
               >
                 Play
               </button>
-              <button className="bannerButton">My List</button>
+              <button
+                className="bannerButton"
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
+                My List
+              </button>
             </>
             <h1 className="description">{truncate(movie?.overview, 200)}</h1>
           </div>

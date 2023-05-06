@@ -12,6 +12,7 @@ import LoadMovie from "./components/LoadMovie";
 import SearchPage from "./components/SearchPage";
 import UserContext, { AuthContext } from "./UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import Profilepage from "./components/Profilepage";
 
 //Gloabal Variable
 window.myGlobalUserId = null;
@@ -51,6 +52,7 @@ function App() {
             <Route path="/genre/:id" element={<Genre />} />
             <Route path="/movie/:id" element={<LoadMovie />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/profile" element={<Profilepage />} />
           </Route>
           <Route exact path="/resetpass" element={<Passreset />} />
         </Routes>

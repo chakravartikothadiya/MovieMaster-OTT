@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import "../static/css/Navbar.css";
 import logo from "../logo.png";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Navbar() {
@@ -13,7 +13,7 @@ function Navbar() {
   let username;
   if (location.pathname === "/") {
     session = location.state && location.state.user_session;
-    console.log(session);
+    console.log("session", session);
     userId = session && session.uid;
     email = session && session.emailID;
     username = email && email.split("@").shift();
@@ -114,11 +114,13 @@ function Navbar() {
             Logout
           </button>
         ) : null}
-        <img
-          className="avatar"
-          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-          alt="Avatar"
-        />
+        <Link to={"/profile"}>
+          <img
+            className="avatar"
+            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+            alt="Avatar"
+          />
+        </Link>
       </div>
     </div>
   );

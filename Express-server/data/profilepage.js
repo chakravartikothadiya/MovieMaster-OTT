@@ -17,7 +17,7 @@ const addmovietolist = async (movieId, movieName, moviePoster, userId) => {
     };
 
     let moviesList = await movies();
-    let userexists = await moviesList.findOne({ email: email });
+    let userexists = await moviesList.findOne({ userId: userId });
     if (userexists) {
       for (let i = 0; i < userexists.myList.length; i++) {
         if (userexists.myList[i].id == movieId) {
@@ -45,6 +45,7 @@ const addmovietolist = async (movieId, movieName, moviePoster, userId) => {
 
 const removemoviefromlist = async (movieId, userId) => {
   try {
+    console.log(movieId, userId);
     let movieList = await movies();
     let removemovie = await movieList.updateOne(
       { userId: userId },

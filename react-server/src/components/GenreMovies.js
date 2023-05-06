@@ -12,6 +12,7 @@ function GenreMovies({movies}) {
             }
             return (
               <div
+              className='thumbnaildiv'
                 onClick={() =>
                   navigate(`/movie/${movie.id}/`)
                 }
@@ -22,6 +23,7 @@ function GenreMovies({movies}) {
                   src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`} 
                   alt={movie?.title || movie?.name || movie?.original_name} 
                 />
+                <p className='titleBackdrop'>{movie.original_title}</p>
               </div>
             );
           })}
