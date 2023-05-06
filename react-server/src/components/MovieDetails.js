@@ -84,12 +84,12 @@ export default function Detail(props) {
         setcurrentmovieName(
           remove?.data?.myList?.map((e) => {
             if (e.name == props.title) {
-              return false;
+              return true;
             }
           })
         );
       } else {
-        setcurrentmovieName(true);
+        setcurrentmovieName(false);
       }
     } catch (e) {
       console.log(e);
@@ -239,11 +239,15 @@ export default function Detail(props) {
   };
 
   const checksave = () => {
-    listdataX?.map((e) => {
-      if (e.name == props.title) {
-        setcurrentmovieName(true);
-      }
-    });
+    try {
+      listdataX?.map((e) => {
+        if (e.name == props.title) {
+          setcurrentmovieName(true);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // join room function
