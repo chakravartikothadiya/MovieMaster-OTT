@@ -14,7 +14,7 @@ export default function LoadMovie() {
   const uid = currentUser && currentUser.uid;
   const emailID = currentUser && currentUser.emailID;
   let usrId = uid?.toString();
-  let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
+  let username = emailID?.split("@")[0]?.split('"')[1];
   const { id } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
   const url_movie_cast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=en-US`;
