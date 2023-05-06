@@ -31,28 +31,42 @@ export default function CommentFrom({
   return (
     <form onSubmit={onSubmit}>
       <div className={styles.comment_form_section}>
+        <label for="my-input" hidden>
+          Enter Comments
+        </label>
         <textarea
           placeholder={isParent ? "Add a Comment..." : "Add a Comment..."}
           className={styles.comment_form_textarea}
           value={text}
           onChange={(e) => setText(e.target.value)}
+          id="my-input"
         />
         <div className={styles.comment_editing_buttons}>
+          <label for="comment-button" hidden>
+            Comment Button
+          </label>
           <button
             className={styles.comment_form_button}
             disabled={isTextDisabled}
+            id="comment-button"
           >
             {submitLable}
           </button>
 
           {hasCancelButton && (
-            <button
-              type="button"
-              className={styles.comment_form_cancel_button}
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
+            <>
+              <label for="cancel-button" hidden>
+                Cancel Button
+              </label>
+              <button
+                type="button"
+                className={styles.comment_form_cancel_button}
+                onClick={handleCancel}
+                id="cancel-button"
+              >
+                Cancel
+              </button>
+            </>
           )}
         </div>
       </div>

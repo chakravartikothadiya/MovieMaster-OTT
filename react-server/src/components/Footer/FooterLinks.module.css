@@ -1,21 +1,34 @@
-
-
-
-.linksList{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+.linksList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  background-color: #000000;
+  padding: 1rem;
 }
 
-.link{
-    flex-basis: 25%;
-    margin-bottom: 1rem;
-    font-size: 0.8rem;
+.link {
+  font-size: 0.8rem;
 }
 
-.link a{
-    text-decoration: none;
-    color: #808080;
+.link a {
+  color: #909090;
+  text-decoration: none;
+}
+
+.link a:hover {
+  color: #ffffff;
+}
+
+.link a:focus {
+  outline: none;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .linksList {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

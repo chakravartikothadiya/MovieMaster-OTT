@@ -107,7 +107,7 @@ export default function Comments({ currentUserId, username, movieId }) {
 
   return (
     <div className={styles.comments}>
-      <h3>Comments</h3>
+      <h2>Comments</h2>
       {/* <div className={styles.comment_form_title}>Write Comment</div> */}
       <CommentFrom submitLable="Comment" handleSubmit={addComment} />
       <div className={styles.comments_container}>
