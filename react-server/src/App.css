@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+body {
+  background-color: black;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -55,7 +59,7 @@
   right: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgb(0, 0, 0);
   display: flex;
   flex-direction: column;
   width: 350px;
@@ -76,6 +80,7 @@
   height: 300px;
   overflow: scroll;
   padding: 10px;
+  background-color: #000000;
 }
 
 .message {

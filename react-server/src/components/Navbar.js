@@ -94,10 +94,18 @@ function Navbar() {
         />
         {displaySearchbar && (
           <div className="searchBox">
+            <label
+              hidden
+              htmlFor="searchInput"
+              style={{ color: "white", backgroundColor: "#747474" }}
+            >
+              Search:
+            </label>
             <input
               type="text"
               placeholder="Search..."
               onChange={handleSearch}
+              id="searchInput"
             />
             <button>Search</button>
           </div>
