@@ -11,6 +11,7 @@ import { Link, useNavigate, useParams, Location } from "react-router-dom";
 
 import RecommenderMovies from "./RecommenderMovies";
 import { withTheme } from "@emotion/react";
+import Footer from "./Footer/Footer";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 const socket = io.connect("http://localhost:8000");
@@ -321,13 +322,14 @@ export default function Detail(props) {
           <img src={props.poster} alt={props.title} />
           <h1 className="movie-title">{props.title}</h1>
           <button
-            className="movie-play-button bannerButton"
+            className="movie-play-button"
             onClick={() => {
               setplaytrailer(true);
             }}
           >
             Play
           </button>
+
 
           {currentmovieName == false ? (
             <button
@@ -346,20 +348,14 @@ export default function Detail(props) {
           )}
 
           <button
-            className={
-              isLiked
-                ? "movie-like-button-on bannerButton"
-                : "movie-like-button bannerButton"
-            }
+            className={isLiked ? "movie-like-button-on" : "movie-like-button"}
             onClick={handlelike}
           >
             Like {likes}
           </button>
           <button
             className={
-              isDisliked
-                ? "movie-dislike-button-on bannerButton"
-                : "movie-dislike-button bannerButton"
+              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
             }
             onClick={handledislike}
           >
@@ -367,9 +363,7 @@ export default function Detail(props) {
           </button>
           <button
             className={
-              isDisliked
-                ? "movie-dislike-button-on bannerButton"
-                : "movie-dislike-button bannerButton"
+              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
             }
             onClick={(e) => join_room(e, props.title)}
           >
@@ -383,6 +377,9 @@ export default function Detail(props) {
           <div className="movie-description">{props.description}</div>
           <div className="movie-rating">
             Rating: <span className="rating-value">{props.rating}</span>
+          </div>
+          <div className="movie-rating">
+            Duration: <span className="rating-value">{props.runtime}</span>
           </div>
         </div>
         <div className="right-container">

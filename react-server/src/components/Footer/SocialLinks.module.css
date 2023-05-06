@@ -1,11 +1,12 @@
-.box{
-    /* background-color: blue; */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.box {
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 
-
-.iconsList{
-    margin-right: 1rem;
+.iconsList {
+  margin-right: 1rem;
 }
