@@ -6,7 +6,9 @@ import axios from "axios";
 import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
-import { Link, useNavigate, Location } from "react-router-dom";
+
+import { Link, useNavigate, useParams, Location } from "react-router-dom";
+
 import RecommenderMovies from "./RecommenderMovies";
 import { withTheme } from "@emotion/react";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
@@ -14,6 +16,8 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
+  const params = useParams();
+  console.log(params, "pararms");
   const [currentUser] = useContext(AuthContext);
   const login = currentUser && currentUser.login;
   const uid = currentUser && currentUser.uid;
@@ -45,42 +49,50 @@ export default function Detail(props) {
   const [isLiked, setisLiked] = useState(false);
   const [isDisliked, setisDisliked] = useState(false);
 
-  const [listdataX, setlistdataX] = useState(0);
-  const [currentmovieName, setcurrentmovieName] = useState(0);
+  const [listdataX, setlistdataX] = useState(null);
+  const [currentmovieName, setcurrentmovieName] = useState(false);
 
   const handlesave = async () => {
-    const mylistresponse = await axios.post(
-      `http://localhost:8000/profilepage`,
-      {
-        movieId: mvId,
-        moviePoster: props.poster,
-        movieName: props.title,
-        userId: usrId.split('"')[1],
-      }
-    );
-    setcurrentmovieName(
-      mylistresponse?.data[0]?.mylist?.map((e) => {
-        if (e.name == props.title) {
-          return e.name;
+    try {
+      const mylistresponse = await axios.post(
+        `http://localhost:8000/profilepage`,
+        {
+          movieId: mvId,
+          moviePoster: props.poster,
+          movieName: props.title,
+          userId: usrId.split('"')[1],
         }
-      })
-    );
-  };
-
-  const handleremove = async () => {
-    const remove = await axios.delete("http://localhost:8000/profilepage", {
-      data: { movieId: props.id.toString(), userId: usrId.split('"')[1] },
-    });
-    if (remove?.data?.myList?.length != 0) {
+      );
       setcurrentmovieName(
-        remove?.data?.myList?.map((e) => {
+        mylistresponse?.data[0]?.mylist?.map((e) => {
           if (e.name == props.title) {
-            return e.name;
+            return true;
           }
         })
       );
-    } else {
-      setcurrentmovieName(0);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleremove = async () => {
+    try {
+      const remove = await axios.delete("http://localhost:8000/profilepage", {
+        data: { movieId: props.id.toString(), userId: usrId.split('"')[1] },
+      });
+      if (remove?.data?.myList?.length != 0) {
+        setcurrentmovieName(
+          remove?.data?.myList?.map((e) => {
+            if (e.name == props.title) {
+              return false;
+            }
+          })
+        );
+      } else {
+        setcurrentmovieName(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -117,71 +129,122 @@ export default function Detail(props) {
   };
 
   const fetchMovieVideo = async (id) => {
-    const { data } = await axios.get(`${API_URL}/movie/${id}`, {
-      params: {
-        api_key: API_KEY,
-        append_to_response: "videos",
-      },
-    });
+    try {
+      const { data } = await axios.get(`${API_URL}/movie/${id}`, {
+        params: {
+          api_key: API_KEY,
+          append_to_response: "videos",
+        },
+      });
 
-    return data;
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const selectMovie = async () => {
-    const data = await fetchMovieVideo(props.id);
-    // setselectedData(data.videos.results);
-    console.log("Inside selectMovie", data);
-    let trl = data.videos.results.find((vid) => vid.name.includes("Trailer"));
-    if (!trl) {
-      trl = data?.videos?.results[0];
+    try {
+      const data = await fetchMovieVideo(props.id);
+      let trl = data.videos.results.find((vid) => vid.name.includes("Trailer"));
+      if (!trl) {
+        trl = data?.videos?.results[0];
+      }
+      setTrailer(trl);
+    } catch (e) {
+      console.log(e);
     }
-    setTrailer(trl);
   };
 
   const fetchRecommendedMovies = async () => {
-    const response = await axios.get(
-      `http://localhost:8000/recommend/movies/${props.title}/5`
-    );
-    if (!response.data) setRecommenderData([]);
-    setRecommenderData(response.data);
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/recommend/movies/${props.title}/5`
+      );
+      if (!response.data) setRecommenderData([]);
+      setRecommenderData(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const fetchLikesDislikes = async () => {
-    const response = await axios.get("http://localhost:8000/likes/", {
-      params: {
-        movieId: mvId,
-        userId: usrId,
-      },
-    });
-
-    let status = response.data;
-    if (status === "like") {
-      setisLiked(true);
-      setisDisliked(false);
-    } else if (status === "dislike") {
-      setisDisliked(true);
-      setisLiked(false);
-    } else {
-      setisLiked(false);
-      setisDisliked(false);
+    try {
+      const response = await axios.get("http://localhost:8000/likes/", {
+        params: {
+          movieId: mvId,
+          userId: usrId,
+        },
+      });
+      let status = response.data;
+      if (status === "like") {
+        setisLiked(true);
+        setisDisliked(false);
+      } else if (status === "dislike") {
+        setisDisliked(true);
+        setisLiked(false);
+      } else {
+        setisLiked(false);
+        setisDisliked(false);
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const setDBLikesDislike = async (movieId, userId, value) => {
-
-    const response = await axios.post("http://localhost:8000/likes/", {
-      movieId,
-      userId,
-      value,
-    });
+    try {
+      const response = await axios.post("http://localhost:8000/likes/", {
+        movieId,
+        userId,
+        value,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getDBTotalLikesDislikes = async () => {
-    const response = await axios.get("http://localhost:8000/likes/totallikes", {
-      params: {
-        movieId: mvId,
-      },
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/likes/totallikes",
+        {
+          params: {
+            movieId: mvId,
+          },
+        }
+      );
+      let result = response.data;
+      setLikes(result.likes);
+      setDislikes(result.dislikes);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchlistdata = async () => {
+    try {
+      console.log("in list data");
+      const list = await axios.get("http://localhost:8000/profilepage", {
+        params: {
+          userId: usrId.toString().split('"')[1],
+        },
+      });
+      console.log("after axios", list);
+      setlistdataX(list.data);
+      console.log("in list", listdataX);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const checksave = () => {
+    listdataX?.map((e) => {
+      if (e.name == props.title) {
+        setcurrentmovieName(true);
+      }
     });
+
     let result = response.data;
 
     setLikes(result.likes);
@@ -201,42 +264,23 @@ export default function Detail(props) {
     }
   };
 
-  useEffect(
-    () => {
-      selectMovie();
-      fetchLikesDislikes();
-      getDBTotalLikesDislikes();
-      fetchRecommendedMovies();
-    },
-    [props.id],
-    isLiked,
-    isDisliked
-  );
+  useEffect(() => {
+    checksave();
+  }, [listdataX]);
+
+  useEffect(() => {
+    selectMovie();
+    fetchLikesDislikes();
+    getDBTotalLikesDislikes();
+    fetchRecommendedMovies();
+    fetchlistdata();
+  }, [props.id, isLiked, isDisliked, currentmovieName, params.id]);
 
   useEffect(() => {
     if (localStorage.getItem("session_auth") == null) {
       navigate("/login", { state: { session_expired: true } });
     }
   }, [chatclosecounter, playtrailer, isLiked, isDisliked, chatclosecounter]);
-
-  const fetchlistdata = async () => {
-    const list = await axios.get("http://localhost:8000/profilepage", {
-      params: {
-        userId: usrId,
-      },
-    });
-
-    setlistdataX(list);
-    listdataX?.data?.map((element) => {
-      if (element?.name == props.title) {
-        setcurrentmovieName(element?.name);
-      }
-    });
-  };
-
-  useEffect(() => {
-    fetchlistdata();
-  }, []);
 
   const renderTrailer = () => {
     const opts = {
@@ -296,12 +340,18 @@ export default function Detail(props) {
             Play
           </button>
 
-          {currentmovieName == 0 ? (
-            <button className="movie-save-button bannerButton" onClick={handlesave}>
+          {currentmovieName == false ? (
+            <button
+              className="movie-save-button bannerButton"
+              onClick={handlesave}
+            >
               Save
             </button>
           ) : (
-            <button className="movie-save-button bannerButton" onClick={handleremove}>
+            <button
+              className="movie-save-button bannerButton"
+              onClick={handleremove}
+            >
               UnSave
             </button>
           )}
