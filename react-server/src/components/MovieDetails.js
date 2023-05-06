@@ -244,11 +244,6 @@ export default function Detail(props) {
         setcurrentmovieName(true);
       }
     });
-
-    let result = response.data;
-
-    setLikes(result.likes);
-    setDislikes(result.dislikes);
   };
 
   // join room function
