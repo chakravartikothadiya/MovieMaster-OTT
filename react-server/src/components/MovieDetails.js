@@ -6,7 +6,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Location } from "react-router-dom";
 import RecommenderMovies from "./RecommenderMovies";
 import { withTheme } from "@emotion/react";
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
@@ -21,7 +21,13 @@ export default function Detail(props) {
   let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
   let mvId = props.id?.toString();
   let usrId = uid?.toString();
+  setTimeout(() => {
+    if (username == undefined || localStorage.getItem("session_auth") == null) {
+      window.location.reload();
+    }
+  }, 0);
   const navigate = useNavigate();
+
   const API_URL = "https://api.themoviedb.org/3";
   const [chat, setChat] = useState(false);
   const [roomName, setroomName] = useState("");
@@ -147,6 +153,7 @@ export default function Detail(props) {
         userId: usrId,
       },
     });
+
     let status = response.data;
     if (status === "like") {
       setisLiked(true);
@@ -161,6 +168,7 @@ export default function Detail(props) {
   };
 
   const setDBLikesDislike = async (movieId, userId, value) => {
+
     const response = await axios.post("http://localhost:8000/likes/", {
       movieId,
       userId,
@@ -175,6 +183,7 @@ export default function Detail(props) {
       },
     });
     let result = response.data;
+
     setLikes(result.likes);
     setDislikes(result.dislikes);
   };
@@ -186,7 +195,6 @@ export default function Detail(props) {
     if (chatclosecounter % 2 == 0) {
       setChat(false);
     } else {
-      // session = session;
       setroomName(MovieName);
       socket.emit("join_room", MovieName);
       setChat(true);
@@ -209,7 +217,7 @@ export default function Detail(props) {
     if (localStorage.getItem("session_auth") == null) {
       navigate("/login", { state: { session_expired: true } });
     }
-  }, [chatclosecounter, playtrailer, isLiked, isDisliked, chat]);
+  }, [chatclosecounter, playtrailer, isLiked, isDisliked, chatclosecounter]);
 
   const fetchlistdata = async () => {
     const list = await axios.get("http://localhost:8000/profilepage", {

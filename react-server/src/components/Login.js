@@ -27,7 +27,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [user_session, setUsersession] = useState("");
+  const [user_session, setUsersession] = useState({});
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [auth, setAuth] = useState(false);
   const [session_exists, setSessionExists] = useState(false);
@@ -50,7 +50,6 @@ const Login = () => {
       <Navigate to="/" />;
     }
   }
-
   // console.log(msg);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,10 +70,13 @@ const Login = () => {
       });
       // check!
       if (response && !response.data.code) {
-        console.log(response);
-        const { login, emailID, uid } = response.data;
+        // console.log(response);
+        const { login, emailID, uid } = response.data && response.data;
+
+        // console.log("EMAIL FROM HOME", emailID);
+        // emailID = emailID.split('"')[1];
         const obj = { login, emailID, uid };
-        setCurrentUser(obj);
+
         localStorage.setItem(
           "session_auth",
           JSON.stringify(response.data.login)
@@ -87,12 +89,13 @@ const Login = () => {
           "session_userID",
           JSON.stringify(response.data.uid)
         );
-
-        setUsersession(response.data);
-        console.log(currentUser);
+        setCurrentUser(obj);
+        setUsersession(currentUser);
+        // console.log("Current User", currentUser);
+        // console.log("= User_SESSION", user_session);
         // console.log(response.data);
         setRedirect(true);
-        navigate("/", { state: { user_session: user_session } });
+        navigate("/", { state: { user_session: response.data } });
       } else {
         if (response.data.code == "auth/invalid-email") setInvalidEmail(true);
         if (
@@ -110,8 +113,8 @@ const Login = () => {
   };
 
   // useEffect(() => {
-  //   console.log({ currentUser });
-  // }, [currentUser]);
+  //   setCurrentUser(currentUser);
+  // }, []);
   // useEffect(() => {
   //   if (redirect) {
   //     navigate("/", { state: { user_session: user_session } });
