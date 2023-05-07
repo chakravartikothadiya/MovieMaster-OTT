@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "../App.css";
 import axios from "axios";
 import {
@@ -19,6 +19,10 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../UserContext";
+import { authO, provider } from "../GoogleSignIn/congif";
+import { signInWithPopup } from "firebase/auth";
+
 function RegistrationForm() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -27,6 +31,7 @@ function RegistrationForm() {
   const [passlen, setPasslen] = useState(0);
   const [passe, setPasse] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [currentUser, setCurrentUser] = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -72,6 +77,28 @@ function RegistrationForm() {
         textDecoration: "underline #000000",
       },
     },
+  };
+
+  const googleSignin = async () => {
+    console.log("in googleSignin");
+    const result = await signInWithPopup(authO, provider);
+
+    if (result.user.emailVerified) {
+      localStorage.setItem(
+        "session_auth",
+        JSON.stringify(result.user.emailVerified)
+      );
+      localStorage.setItem("session_email", JSON.stringify(result.user.email));
+      localStorage.setItem("session_userID", JSON.stringify(result.user.uid));
+      const login = result.user.emailVerified;
+      const emailID = result.user.email;
+      const uid = result.user.uid;
+      const obj = { login, emailID, uid };
+      setCurrentUser(obj);
+      navigate("/", { state: { user_session: obj } });
+    }
+
+    console.log(result.user.uid);
   };
 
   return localStorage.getItem("session_auth") ? (
@@ -140,14 +167,13 @@ function RegistrationForm() {
               Register
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2" className="Link">
-                  Forgot password?
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link href="/" variant="body2" style={linkStyle}>
                   Already have an account? SIgn In?
+                </Link>
+                <Link onClick={googleSignin} variant="body2" className="Link">
+                  Google signIN
                 </Link>
               </Grid>
             </Grid>

@@ -20,6 +20,9 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../UserContext";
+import { authO, provider } from "../GoogleSignIn/congif";
+import { signInWithPopup } from "firebase/auth";
+// const { signInWithPopup } = require("firebase/auth");
 
 const Login = () => {
   const navigate = useNavigate();
@@ -121,6 +124,28 @@ const Login = () => {
   //   }
   // }, [redirect]);
 
+  const googleSignin = async () => {
+    console.log("in googleSignin");
+    const result = await signInWithPopup(authO, provider);
+
+    if (result.user.emailVerified) {
+      localStorage.setItem(
+        "session_auth",
+        JSON.stringify(result.user.emailVerified)
+      );
+      localStorage.setItem("session_email", JSON.stringify(result.user.email));
+      localStorage.setItem("session_userID", JSON.stringify(result.user.uid));
+      const login = result.user.emailVerified;
+      const emailID = result.user.email;
+      const uid = result.user.uid;
+      const obj = { login, emailID, uid };
+      setCurrentUser(obj);
+      navigate("/", { state: { user_session: obj } });
+    }
+
+    console.log(result.user.uid);
+  };
+
   const theme = createTheme({ palette: { mode: "dark" } });
 
   return localStorage.getItem("session_auth") ? (
@@ -198,6 +223,9 @@ const Login = () => {
               <Grid item>
                 <Link href="/register" variant="body2" className="Link">
                   Do not have an account? Sign Up?
+                </Link>
+                <Link onClick={googleSignin} variant="body2" className="Link">
+                  Google signIN
                 </Link>
               </Grid>
             </Grid>
