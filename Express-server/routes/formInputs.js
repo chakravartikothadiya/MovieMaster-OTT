@@ -144,4 +144,21 @@ router.route("/ResetPassword").post(async (req, res) => {
   }
 });
 
+// router.route("/googleSignin").get(async (req, res) => {
+//   try {
+//     const auth = getAuth(app);
+//     const provider = new GoogleAuthProvider();
+
+//     res.send({ auth, provider });
+//     // Sign in with the Google popup
+//     // const userCredential = await signInWithPopup(auth, provider);
+
+//     // Get the signed-in user's data
+//     // const user = userCredential.user;
+//     console.log(user);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
+
 module.exports = router;
