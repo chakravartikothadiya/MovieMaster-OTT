@@ -5,6 +5,9 @@ let { ObjectId } = require("mongodb");
 const addmovietolist = async (movieId, movieName, moviePoster, userId) => {
   try {
     let check = 0;
+    if (!userId) {
+      throw `userId is invalid`;
+    }
     let user = {
       userId: userId,
       myList: [{ id: movieId, name: movieName, moviePoster: moviePoster }],
@@ -65,9 +68,13 @@ const removemoviefromlist = async (movieId, userId) => {
 
 const getAllmovies = async (userId) => {
   try {
+    let movieList = null;
     let movieCollection = await movies();
-    let movieList = await movieCollection.find({ userId: userId }).toArray();
-
+    if (userId) {
+      movieList = await movieCollection.find({ userId: userId }).toArray();
+    } else {
+      throw `undefined ID`;
+    }
     return movieList;
   } catch (e) {
     console.log(e);
