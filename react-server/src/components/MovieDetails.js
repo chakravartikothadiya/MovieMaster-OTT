@@ -277,8 +277,13 @@ export default function Detail(props) {
   const renderTrailer = () => {
     const opts = {
       playerVars: {
-        // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
+        cc_load_policy: 0,
+        fs: 0,
+        iv_load_policy: 0,
+        modestbranding: 0,
+        rel: 0,
+        showInfo: 0,
       },
       origin: "http://localhost:3000", // set the origin to the URL of your app
       width: "100%",
@@ -294,7 +299,7 @@ export default function Detail(props) {
           videoId={trailer.key}
           containerClassName={"youtube-container amru"}
           opts={opts}
-          style={{ width: "100%", height: "750px" }}
+          style={{ width: "100%", height: "750px", overflow: "hidden" }}
         />
       );
     }
@@ -334,18 +339,35 @@ export default function Detail(props) {
           </button>
 
           {currentmovieName == false ? (
-            <button className="movie-save-button">
-              <AiOutlinePlus style={{ color: "white" }} onClick={handlesave} />
-            </button>
+            <>
+              <label for="save-button" hidden>
+                Save Button
+              </label>
+              <button id="save-button" className="movie-save-button">
+                <AiOutlinePlus
+                  style={{ color: "white" }}
+                  onClick={handlesave}
+                />
+              </button>
+            </>
           ) : (
-            <button className="movie-save-button">
-              <FiCheck style={{ color: "white" }} onClick={handleremove} />
-            </button>
+            <>
+              <label for="save-button" hidden>
+                Save Button
+              </label>
+              <button className="movie-save-button">
+                <FiCheck style={{ color: "white" }} onClick={handleremove} />
+              </button>
+            </>
           )}
 
+          <label for="like-button" hidden>
+            Like Button
+          </label>
           <button
             className={isLiked ? "movie-like-button-on" : "movie-like-button"}
             onClick={handlelike}
+            id="like-button"
           >
             {isLiked ? (
               <AiFillLike style={{ fill: "white" }} />
@@ -353,11 +375,16 @@ export default function Detail(props) {
               <AiOutlineLike style={{ fill: "white" }} />
             )}
           </button>
+
+          <label for="dislike-button" hidden>
+            DisLike Button
+          </label>
           <button
             className={
               isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
             }
             onClick={handledislike}
+            id="dislike-button"
           >
             {isDisliked ? (
               <AiFillDislike style={{ fill: "white" }} />
@@ -365,11 +392,16 @@ export default function Detail(props) {
               <AiOutlineDislike style={{ fill: "white" }} />
             )}
           </button>
+
+          <label for="chat-button" hidden>
+            DisLike Button
+          </label>
           <button
             className={
               isChatOn ? "movie-dislike-button-on" : "movie-dislike-button"
             }
             onClick={(e) => join_room(e, props.title)}
+            id="chat-button"
           >
             {isChatOn ? (
               <BsChatDotsFill style={{ fill: "white" }} />

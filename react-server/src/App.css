@@ -15,18 +15,17 @@ body {
   background-color: black;
   background: black;
 }
-*{
-
+* {
   font-family: sans-serif;
 }
-.login{
+.login {
   margin-top: 80p2;
   height: calc(100vh - 80px - 40px);
   display: grid !important;
   place-content: center;
   place-items: center;
 }
-.loginIcon{
+.loginIcon {
   width: 20px;
   cursor: pointer;
 }
@@ -234,14 +233,57 @@ body {
 }
 
 .remove {
-  color: red;
-  justify-content: center;
+  color: rgb(191, 0, 0);
   display: flex;
+  justify-content: center;
+  margin: 5px auto;
+  display: block;
   flex-direction: row;
-  border-color: black;
-  border-style: solid;
-  margin-top: 30;
-  margin-bottom: 30;
-  padding: 5px 10px;
-  background-color: black;
+  background-color: #dc0000;
+  color: #fff;
+  padding: 4px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.remove:hover {
+  background-color: #f03e3e;
+}
+
+.remove:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ff4d4d;
+}
+
+.remove span {
+  margin-left: 5px;
+}
+
+.Mylistheading {
+  color: rgb(214, 214, 214);
+  text-align: center;
+  font-size: 24px;
+  margin-top: 50px;
+}
+
+.Mylistheading span {
+  display: block;
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: normal;
+}
+
+.Mylistheading::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 60%;
+  margin: 10px auto 20px auto;
+  background-color: rgb(214, 214, 214);
 }

@@ -19,7 +19,6 @@ export default function CommentFrom({
   } else {
     isParent = false;
   }
-  console.log(isParent);
 
   //Function for handling the Submit form
   const onSubmit = (event) => {

@@ -45,10 +45,8 @@ function RegistrationForm() {
         "http://localhost:8000/RegistrationForm",
         { email, password }
       );
-      console.log(response.data);
       if (response.data.message == "email already exists") setErrore(true);
       if (response.data.code == "auth/invalid-email") setErrore(true);
-      // console.log(response.data);
       if (
         response.data.message !== "email already exists" &&
         response.data.code !== "auth/invalid-email" &&
@@ -80,7 +78,6 @@ function RegistrationForm() {
   };
 
   const googleSignin = async () => {
-    console.log("in googleSignin");
     const result = await signInWithPopup(authO, provider);
 
     if (result.user.emailVerified) {
@@ -97,22 +94,15 @@ function RegistrationForm() {
       setCurrentUser(obj);
       navigate("/", { state: { user_session: obj } });
     }
-
-    console.log(result.user.uid);
   };
 
   const facebookSignin = async () => {
     const result = await signInWithPopup(authO, provider1);
-    console.log(result);
-    // const credential = FacebookAuthProvider.credentialFromResult(result);
-    // const accessToken = credential.accessToken;
-    // console.log(accessToken);
   };
 
   return localStorage.getItem("session_auth") ? (
     (window.location.pathname = "/")
   ) : (
-    // {if(){
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

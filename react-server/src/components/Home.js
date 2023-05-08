@@ -10,17 +10,12 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 function Home() {
   const [currentUser] = useContext(AuthContext);
-  console.log("IN DETAILS HomePAGE CURRENT USER", currentUser);
-  // console.log("cc");
-  // console.log("hahahahahahahahaha", { currentUser });
   const login = currentUser?.login;
   const uid = currentUser?.uid;
   const emailID = currentUser?.emailId;
-  // console.log("home uid", uid);
   const navigate = useNavigate();
   const location = useLocation();
   const verifiy_session = location?.state?.user_session;
-  console.log("VERIFICATION SESSION IS:", verifiy_session);
   if (localStorage.getItem("session_auth") == null) {
     localStorage.clear();
     navigate("/login", { state: { session_expired: true } });
