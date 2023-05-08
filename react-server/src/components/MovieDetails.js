@@ -28,22 +28,17 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
-  const params = useParams();
-  console.log(params, "pararms");
   const [currentUser] = useContext(AuthContext);
+  const params = useParams();
   const [closeChat, setCloseChat] = useState(true);
   const [isChatOn, setisChatOn] = useState(false);
-  const login = currentUser && currentUser.login;
-  const uid = currentUser && currentUser.uid;
-  const emailID = currentUser && currentUser.emailID;
-  let username = emailID?.split("@")[0]?.split('"')[1]?.toString();
+  const login = currentUser?.login;
+  const uid = currentUser?.uid;
+  const emailID = currentUser?.emailID;
+  let username = emailID?.split("@")[0];
   let mvId = props.id?.toString();
   let usrId = uid?.toString();
-  setTimeout(() => {
-    if (username == undefined || localStorage.getItem("session_auth") == null) {
-      window.location.reload();
-    }
-  }, 0);
+
   const navigate = useNavigate();
 
   const API_URL = "https://api.themoviedb.org/3";

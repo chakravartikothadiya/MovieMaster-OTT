@@ -20,6 +20,9 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../UserContext";
+import { authO, provider } from "../GoogleSignIn/congif";
+import { signInWithPopup } from "firebase/auth";
+// const { signInWithPopup } = require("firebase/auth");
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,7 +41,6 @@ const Login = () => {
     "All your current sessions has been expired on this browser. Please Logout and Login again";
 
   const msg = useLocation().state;
-
   // console.log(typeof window.location.pathname);
   // console.log(localStorage.getItem("session_auth"));
   if (localStorage.getItem("session_auth") == "true") {
@@ -71,6 +73,9 @@ const Login = () => {
       // check!
       if (response && !response.data.code) {
         // console.log(response);
+
+        global.globalData = response.data;
+
         const { login, emailID, uid } = response.data && response.data;
 
         // console.log("EMAIL FROM HOME", emailID);
@@ -89,11 +94,7 @@ const Login = () => {
           "session_userID",
           JSON.stringify(response.data.uid)
         );
-        setCurrentUser(obj);
-        setUsersession(currentUser);
-        // console.log("Current User", currentUser);
-        // console.log("= User_SESSION", user_session);
-        // console.log(response.data);
+        setCurrentUser({ login, emailID, uid });
         setRedirect(true);
         navigate("/", { state: { user_session: response.data } });
       } else {
@@ -103,23 +104,33 @@ const Login = () => {
           response.data.code == "auth/user-not-found"
         )
           setAuth(true);
-        // console.log(response.data.code);
       }
-
-      // setUsersession(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // useEffect(() => {
-  //   setCurrentUser(currentUser);
-  // }, []);
-  // useEffect(() => {
-  //   if (redirect) {
-  //     navigate("/", { state: { user_session: user_session } });
-  //   }
-  // }, [redirect]);
+  const googleSignin = async () => {
+    console.log("in googleSignin");
+    const result = await signInWithPopup(authO, provider);
+
+    if (result.user.emailVerified) {
+      localStorage.setItem(
+        "session_auth",
+        JSON.stringify(result.user.emailVerified)
+      );
+      localStorage.setItem("session_email", JSON.stringify(result.user.email));
+      localStorage.setItem("session_userID", JSON.stringify(result.user.uid));
+      const login = result.user.emailVerified;
+      const emailID = result.user.email;
+      const uid = result.user.uid;
+      const obj = { login, emailID, uid };
+      setCurrentUser(obj);
+      navigate("/", { state: { user_session: obj } });
+    }
+
+    console.log(result.user.uid);
+  };
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
@@ -198,6 +209,9 @@ const Login = () => {
               <Grid item>
                 <Link href="/register" variant="body2" className="Link">
                   Do not have an account? Sign Up?
+                </Link>
+                <Link onClick={googleSignin} variant="body2" className="Link">
+                  Google signIN
                 </Link>
               </Grid>
             </Grid>

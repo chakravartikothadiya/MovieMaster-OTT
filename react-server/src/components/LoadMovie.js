@@ -11,10 +11,10 @@ const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
 export default function LoadMovie() {
   const [currentUser] = useContext(AuthContext);
-  const uid = currentUser && currentUser.uid;
-  const emailID = currentUser && currentUser.emailID;
+  const uid = currentUser?.uid;
+  const emailID = currentUser?.emailID;
   let usrId = uid?.toString();
-  let username = emailID?.split("@")[0]?.split('"')[1];
+  let username = emailID?.split("@")[0];
   const { id } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
   const url_movie_cast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=en-US`;
@@ -40,7 +40,6 @@ export default function LoadMovie() {
       //Setting Genres
       const genre_arr = data.data.genres.map((person) => person.name);
       const final_genres_string = genre_arr.join(", ");
-      console.log(final_genres_string);
       setGenre(final_genres_string);
     } catch (e) {
       setError(true);
@@ -64,25 +63,19 @@ export default function LoadMovie() {
   const fecth_cast = async () => {
     try {
       const cast_data = await axios.get(url_movie_cast);
-      console.log("CAAAASSSTTT DAATATA is", cast_data.data.cast);
       const cast_list = cast_data.data.cast
         .filter((person) => person.known_for_department === "Acting")
         .sort((a, b) => a.order - b.order)
         .slice(0, 4)
         .map((person) => person.name);
-      console.log(cast_list);
       const final_cast_string = cast_list.join(", ");
-      console.log(final_cast_string);
       setCast(final_cast_string);
 
       //Setting Director
-      console.log(cast_data.data.crew);
       const director_list = cast_data.data.crew
         .filter((person) => person.department === "Directing")
         .map((person) => person.name);
-      console.log(director_list);
       const final_crew_string = director_list.join(", ");
-      console.log(final_crew_string);
       setDirector(final_crew_string);
     } catch (e) {
       console.log(e);
@@ -90,10 +83,8 @@ export default function LoadMovie() {
   };
 
   useEffect(() => {
-    console.log("Calling fetc_data");
     fetc_data();
     fecth_cast();
-    console.log("moviessssssss:", movie);
   }, []);
 
   return (
