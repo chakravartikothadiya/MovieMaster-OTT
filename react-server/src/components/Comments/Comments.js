@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  getComments,
-  createComment,
-  deleteComment as deleteCommentApi,
-  updateComment as updateCommentApi,
-} from "./api";
 import Comment from "./Comment";
 import styles from "./Comments.module.css";
 import CommentFrom from "./CommentForm";
 
 export default function Comments({ currentUserId, username, movieId }) {
-  console.log("username", username);
   let userId = currentUserId;
   movieId = movieId.toString();
   const [backendComments, setbackendComments] = useState([]);
@@ -35,21 +28,25 @@ export default function Comments({ currentUserId, username, movieId }) {
   const getNewAddedComments = async (text, parentId) => {
     //Add new replys here
     let body = text;
-    console.log(parentId);
-    const addNewComment = await axios.post("http://localhost:8000/comments/", {
-      movieId,
-      userId,
-      body,
-      username,
-      parentId,
-    });
-    //const getNewCommentsArray = await createComment(text, parentId);
-    setbackendComments([addNewComment.data, ...backendComments]);
+    try {
+      const addNewComment = await axios.post(
+        "http://localhost:8000/comments/",
+        {
+          movieId,
+          userId,
+          body,
+          username,
+          parentId,
+        }
+      );
+      setbackendComments([addNewComment.data, ...backendComments]);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   //Function to handle add Comment
   const addComment = (text, parentId) => {
-    console.log("Add Comment", text, parentId);
     getNewAddedComments(text, parentId);
     setactiveComment(null);
   };
@@ -77,7 +74,6 @@ export default function Comments({ currentUserId, username, movieId }) {
       }
     );
     let updComtdata = updatedComment.data;
-    console.log(updComtdata);
 
     const updatedBackendComments = backendComments.map((backendComment) => {
       if (backendComment._id === commentId) {
@@ -91,14 +87,17 @@ export default function Comments({ currentUserId, username, movieId }) {
 
   const setData = async () => {
     //trigger that API
-    const response = await axios.get("http://localhost:8000/comments/", {
-      params: {
-        movieId: movieId,
-        userId: userId,
-      },
-    });
-    console.log(response.data);
-    setbackendComments(response.data);
+    try {
+      const response = await axios.get("http://localhost:8000/comments/", {
+        params: {
+          movieId: movieId,
+          userId: userId,
+        },
+      });
+      setbackendComments(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {

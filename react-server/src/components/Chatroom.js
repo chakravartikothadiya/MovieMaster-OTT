@@ -34,7 +34,6 @@ function ChatRoom({
 
   useEffect(() => {
     if (localStorage.getItem("session_auth") == null) {
-      console.log("in here");
       navigate("/login", { state: { session_expired: true } });
     }
   }, [localStorage.getItem("session_auth"), currMessage]);
@@ -45,9 +44,7 @@ function ChatRoom({
 
   useEffect(() => {
     socket.on("recieve_message", (data) => {
-      //   console.log(data.author == username);
       if (data.author !== username) {
-        // console.log(data.message);
         setMessagelist((list) => [...list, data]);
       }
     });
@@ -72,7 +69,7 @@ function ChatRoom({
         </button>
       </div>
       <div className="chat-body">
-        {messagelist.map((messageContent,i) => {
+        {messagelist.map((messageContent, i) => {
           return (
             <div
               className={`message ${

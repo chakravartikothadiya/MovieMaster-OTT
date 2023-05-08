@@ -22,18 +22,15 @@ function HomeBanner({ fetchURL }) {
   };
 
   useEffect(() => {
-    console.log("Inside useEffect");
     fetchData();
   }, [fetchURL]);
 
   useEffect(() => {
-    console.log("Movie after setting:", movie);
     selectMovie();
   }, [movie]);
 
   async function fetchData() {
     const request = await axios.get(fetchURL);
-    console.log("Inside first fetch request:", request);
     setMovie(
       request?.data?.results[
         Math.floor(Math.random() * request.data.results.length - 1)
@@ -53,13 +50,7 @@ function HomeBanner({ fetchURL }) {
   };
 
   const selectMovie = async () => {
-    console.log(
-      "Before Calling the fetchVid in selectMovie move obj is:",
-      movie
-    );
     const data = await fetchMovieVideo(movie?.id);
-    // setselectedData(data.videos.results);
-    console.log("Data in SelectMovie", data);
     let trl = data?.videos?.results?.find((vid) =>
       vid.name.includes("Trailer")
     );
@@ -70,12 +61,11 @@ function HomeBanner({ fetchURL }) {
   };
 
   const renderTrailer = () => {
-    console.log("Inside Render Function");
-    console.log("This is trailer object", trailer);
     const opts = {
       playerVars: {
         // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
+        showinfo: 0,
       },
       origin: "http://localhost:3000", // set the origin to the URL of your app
       width: "100%",
@@ -90,7 +80,12 @@ function HomeBanner({ fetchURL }) {
           videoId={trailer.key}
           containerClassName={"youtube-container amru"}
           opts={opts}
-          style={{ width: "100%", height: "750px" }}
+          style={{
+            width: "100%",
+            height: "750px",
+            overflow: "hidden",
+            marginTop: "50px",
+          }}
         />
       );
     }

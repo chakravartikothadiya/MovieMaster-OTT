@@ -21,7 +21,6 @@ export default function SearchPage() {
   useEffect(() => {
     skey = location.state && location.state.skey;
     setSearchKey(skey);
-    console.log(searchKey);
     fetchData();
   }, [skey, searchKey]);
 

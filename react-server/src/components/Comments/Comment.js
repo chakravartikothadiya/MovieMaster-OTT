@@ -19,8 +19,6 @@ export default function Comment({
   parentId = null,
 }) {
   const [imgSrc, setImgSrc] = useState("");
-  console.log("currentUserId", currentUserId);
-  console.log("comment.userId", comment.userId);
 
   const canReply = Boolean(currentUserId);
   const canEdit = currentUserId === comment.userId;

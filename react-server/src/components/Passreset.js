@@ -37,7 +37,6 @@ const Passreset = () => {
         if (response.data.code == "auth/invalid-email") setInvalide(true);
         if (response.data.code == "auth/user-not-found") setNouser(true);
         if (!response.data.code) setRedirect(true);
-        // console.log(response.data.code);
       }
     } catch (error) {
       console.error(error);

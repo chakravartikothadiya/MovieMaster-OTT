@@ -14,7 +14,6 @@ function Navbar() {
   let username;
   if (location.pathname === "/") {
     session = location.state && location.state.user_session;
-    console.log("session", session);
     userId = session && session.uid;
     email = session && session.emailID;
     username = email && email.split("@").shift();
@@ -24,6 +23,7 @@ function Navbar() {
   const [serKey, setSearchKey] = useState("");
 
   const [displaySearchbar, setDisplaySearchbar] = useState(false);
+  const [displayAvtSdBar, setdisplayAvtSdBar] = useState(true);
   const navigate = useNavigate();
   const [logoutButton, setLogoutButton] = useState("false");
   const navbartransition = () => {
@@ -37,7 +37,6 @@ function Navbar() {
   const handleClick = async () => {
     try {
       const response = await axios.post("http://localhost:8000/Logout");
-      console.log(response);
       localStorage.clear();
       navigate("/");
     } catch (error) {
@@ -47,7 +46,6 @@ function Navbar() {
 
   useEffect(() => {
     setLogoutButton(localStorage.getItem("session_auth"));
-    // console.log(logoutButton, typeof logoutButton);
   }, [localStorage.getItem("session_auth")]);
 
   useEffect(() => {
@@ -60,11 +58,16 @@ function Navbar() {
   }, [location.pathname]);
 
   const geturl = async () => {
-    console.log(location.pathname);
     if (location.pathname === "/" || location.pathname === "/search") {
       setDisplaySearchbar(true);
     } else {
       setDisplaySearchbar(false);
+    }
+
+    if (location.pathname === "/login" || location.pathname === "/register") {
+      setdisplayAvtSdBar(false);
+    } else {
+      setdisplayAvtSdBar(true);
     }
   };
 
@@ -85,7 +88,7 @@ function Navbar() {
 
   return (
     <div className={`nav ${showBlack && "navBlack"}`}>
-      <Sidebar />
+      {displayAvtSdBar && <Sidebar />}
       <div className="navContent">
         <img
           className="logo"
@@ -123,13 +126,15 @@ function Navbar() {
             <span style={{ marginLeft: "5px" }}>Logout</span>
           </button>
         ) : null}
-        <Link to={"/profile"}>
-          <img
-            className="avatar"
-            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-            alt="Avatar"
-          />
-        </Link>
+        {displayAvtSdBar && (
+          <Link to={"/profile"}>
+            <img
+              className="avatar"
+              src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+              alt="Avatar"
+            />
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -6,10 +6,6 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    //check user currentuser = null
-    //localstorage
-    console.log("local: ", localStorage["session_auth"]);
-
     if (localStorage["session_auth"] == "true") {
       let obj = {
         login: localStorage["session_auth"],
@@ -17,8 +13,6 @@ export const AuthProvider = ({ children }) => {
         emailID: localStorage["session_email"].split('"')[1],
       };
       setCurrentUser(obj);
-      console.log(obj);
-      console.log("current: ", currentUser);
     }
   }, []);
   return (

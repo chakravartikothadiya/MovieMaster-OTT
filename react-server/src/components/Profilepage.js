@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useEffect, useState } from "react";
 import GenreMovies from "./GenreMovies";
 import { useNavigate } from "react-router-dom";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 import "../App.css";
 
 export default function Profilepage() {
@@ -25,7 +26,7 @@ export default function Profilepage() {
     await axios.delete("http://localhost:8000/profilepage", {
       data: { movieId: id, userId: uid },
     });
-    getdata()
+    getdata();
   };
 
   useEffect(() => {
@@ -34,12 +35,18 @@ export default function Profilepage() {
 
   return (
     <div className="Profilepage">
-      <h1 className="Mylistheading">Email: {currentUser?.emailID}</h1>
+      <h1 className="Mylistheading">User Email: {currentUser?.emailID}</h1>
       <div className="mylistcontainer">
-        <h1 className="Mylistheading">My list</h1>
+        <h1
+          className="Mylistheading"
+          style={{ color: "white", fontSize: "35px" }}
+        >
+          My list
+        </h1>
 
-        {typeof data === "string" ?
-        <h1>{data}</h1>:
+        {typeof data === "string" ? (
+          <h1>{data}</h1>
+        ) : (
           data.map((movie) => {
             return (
               <div>
@@ -57,11 +64,13 @@ export default function Profilepage() {
                     removemovie(movie.id);
                   }}
                 >
-                  Remove movie
+                  <IoIosRemoveCircleOutline />{" "}
+                  <span style={{ marginLeft: "5px" }}>Remove Movie</span>
                 </button>
               </div>
             );
-          })}
+          })
+        )}
       </div>
     </div>
   );
