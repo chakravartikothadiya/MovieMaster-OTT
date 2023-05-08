@@ -22,7 +22,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../UserContext";
 import { authO, provider } from "../GoogleSignIn/congif";
 import { signInWithPopup } from "firebase/auth";
-import google from "../Images/google.svg"
+import google from "../Images/google.svg";
 // const { signInWithPopup } = require("firebase/auth");
 
 const Login = () => {
@@ -43,14 +43,11 @@ const Login = () => {
 
   const msg = useLocation().state;
   useEffect(() => {
-    if(localStorage.getItem("session_auth")) 
-    {
+    if (localStorage.getItem("session_auth")) {
       navigate("/");
     }
-  }, [])
-  
-  // console.log(typeof window.location.pathname);
-  // console.log(localStorage.getItem("session_auth"));
+  }, []);
+
   if (localStorage.getItem("session_auth") == "true") {
     if (
       window.location.pathname === "/login" ||
@@ -60,10 +57,8 @@ const Login = () => {
       <Navigate to="/" />;
     }
   }
-  // console.log(msg);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(event);
     try {
       setInvalidEmail(false);
       setAuth(false);
@@ -80,14 +75,10 @@ const Login = () => {
       });
       // check!
       if (response && !response.data.code) {
-        // console.log(response);
-
         global.globalData = response.data;
 
         const { login, emailID, uid } = response.data && response.data;
 
-        // console.log("EMAIL FROM HOME", emailID);
-        // emailID = emailID.split('"')[1];
         const obj = { login, emailID, uid };
 
         localStorage.setItem(
@@ -119,7 +110,6 @@ const Login = () => {
   };
 
   const googleSignin = async () => {
-    console.log("in googleSignin");
     const result = await signInWithPopup(authO, provider);
 
     if (result.user.emailVerified) {
@@ -136,8 +126,6 @@ const Login = () => {
       setCurrentUser(obj);
       navigate("/", { state: { user_session: obj } });
     }
-
-    console.log(result.user.uid);
   };
 
   const theme = createTheme({ palette: { mode: "dark" } });
@@ -215,11 +203,11 @@ const Login = () => {
                   Do not have an account? Sign Up?
                 </Link>
               </Grid>
-                <Grid item xs={12} textAlign={"center"}>
-                  <Link onClick={googleSignin} variant="body2" className="Link">
-                    <img src={google} alt="google" className="loginIcon" />
-                  </Link>
-                </Grid>
+              <Grid item xs={12} textAlign={"center"}>
+                <Link onClick={googleSignin} variant="body2" className="Link">
+                  <img src={google} alt="google" className="loginIcon" />
+                </Link>
+              </Grid>
             </Grid>
           </Box>
           {msg && msg ? msg.msg : null}

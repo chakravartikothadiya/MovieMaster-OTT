@@ -27,10 +27,8 @@ export default function LoadMovie() {
 
   //d7acb997073d8ac06467543852351ad1
   const fetc_data = async () => {
-    console.log("The url is:", url);
     try {
       const data = await axios.get(url);
-      console.log("Indside LoadMovie, data:", data.data);
       setMovie(data.data);
 
       //setting runtime
