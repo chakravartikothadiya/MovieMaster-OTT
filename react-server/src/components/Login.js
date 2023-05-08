@@ -8,8 +8,7 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  InputLabel,
   Link,
   Grid,
   Box,
@@ -20,10 +19,10 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../UserContext";
-import { authO, provider } from "../GoogleSignIn/congif";
+import { authO, provider, provider1 } from "../GoogleSignIn/congif";
 import { signInWithPopup } from "firebase/auth";
 import google from "../Images/google.svg";
-// const { signInWithPopup } = require("firebase/auth");
+import facebook from "../Images/facebook.svg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -127,6 +126,9 @@ const Login = () => {
       navigate("/", { state: { user_session: obj } });
     }
   };
+  const facebookSignin = async () => {
+    const result = await signInWithPopup(authO, provider1);
+  };
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
@@ -159,54 +161,81 @@ const Login = () => {
             noValidate
             sx={{ mt: 1 }}
           >
+            <InputLabel sx={{ color: "white" }} htmlFor="email">
+              Email
+            </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email"
               value={email}
               name="email"
               autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
+              InputProps={{
+                style: {},
+                disableUnderline: true,
+              }}
+              InputLabelProps={{
+                style: { color: "red" },
+              }}
             />
             {invalidEmail && invalidEmail ? "Invalid EmailID" : null}
+            <InputLabel sx={{ color: "white" }} htmlFor="password">
+              Password
+            </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
               value={password}
               type="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
+              InputLabelProps={{
+                style: { color: "red" },
+              }}
             />
             {auth && auth ? "wrong email or password" : null}
             <Button
               type="submit"
               fullWidth
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
               color="error"
             >
               Login
             </Button>
             <Grid container>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <Link href="/resetpass" variant="body2" className="Link">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={6}>
                 <Link href="/register" variant="body2" className="Link">
-                  Do not have an account? Sign Up?
+                  Do not have an account?
                 </Link>
               </Grid>
-              <Grid item xs={12} textAlign={"center"}>
-                <Link onClick={googleSignin} variant="body2" className="Link">
-                  <img src={google} alt="google" className="loginIcon" />
-                </Link>
+              <Grid sx={{ paddingTop: 1, marginTop: 0.5 }}>
+                <Grid item xs={12} textAlign={"center"}>
+                  <Link onClick={googleSignin} variant="body2" className="Link">
+                    <img src={google} alt="google" className="loginIcon" />
+                    Google
+                  </Link>
+                </Grid>
+                <Grid item xs={12} textAlign={"center"} sx={{ padding: 1 }}>
+                  <Link
+                    onClick={facebookSignin}
+                    variant="body2"
+                    className="Link"
+                  >
+                    <img src={facebook} alt="google" className="loginIcon" />
+                    Facebook
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Box>

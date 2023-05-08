@@ -7,6 +7,7 @@ import {
   Button,
   CssBaseline,
   TextField,
+  InputLabel,
   Box,
   Typography,
   Container,
@@ -77,12 +78,14 @@ const Passreset = () => {
             noValidate
             sx={{ mt: 1 }}
           >
+            <InputLabel sx={{ color: "white" }} htmlFor="email">
+              Email
+            </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email"
               value={email}
               name="email"
               autoComplete="email"
@@ -93,7 +96,7 @@ const Passreset = () => {
             <Button
               type="submit"
               fullWidth
-              variant="contained"
+              variant="outlined"
               sx={{ mt: 3, mb: 2 }}
               color="error"
             >

@@ -6,8 +6,7 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  InputLabel,
   Link,
   Grid,
   Box,
@@ -22,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../UserContext";
 import { authO, provider, provider1 } from "../GoogleSignIn/congif";
 import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+import google from "../Images/google.svg";
+import facebook from "../Images/facebook.svg";
 
 function RegistrationForm() {
   const navigate = useNavigate();
@@ -126,12 +127,14 @@ function RegistrationForm() {
             noValidate
             sx={{ mt: 1 }}
           >
+            <InputLabel sx={{ color: "white" }} htmlFor="email">
+              Email
+            </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email"
               value={email}
               name="email"
               autoComplete="email"
@@ -140,12 +143,14 @@ function RegistrationForm() {
             {errore && errore
               ? "email already exists or it is an invalid email"
               : null}
+            <InputLabel sx={{ color: "white" }} htmlFor="Password">
+              Password
+            </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
               value={password}
               type="password"
               id="password"
@@ -158,24 +163,36 @@ function RegistrationForm() {
             <Button
               type="submit"
               fullWidth
-              variant="contained"
+              variant="outlined"
               color="error"
               sx={{ mt: 3, mb: 2 }}
             >
               Register
             </Button>
             <Grid container>
-              <Grid item xs></Grid>
+              <Grid item xs={6}></Grid>
               <Grid item>
                 <Link href="/" variant="body2" style={linkStyle}>
                   Already have an account? SIgn In?
                 </Link>
-                <Link onClick={googleSignin} variant="body2" className="Link">
-                  Google signIN
-                </Link>
-                <Link onClick={facebookSignin} variant="body2" className="Link">
-                  Facebook signIN
-                </Link>
+              </Grid>
+              <Grid sx={{ paddingTop: 1, marginTop: 0.5 }}>
+                <Grid item xs={12} textAlign={"center"}>
+                  <Link onClick={googleSignin} variant="body2" className="Link">
+                    <img src={google} alt="google" className="loginIcon" />
+                    Google
+                  </Link>
+                </Grid>
+                <Grid item xs={12} textAlign={"center"} sx={{ padding: 1 }}>
+                  <Link
+                    onClick={facebookSignin}
+                    variant="body2"
+                    className="Link"
+                  >
+                    <img src={facebook} alt="google" className="loginIcon" />
+                    Facebook
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Box>
