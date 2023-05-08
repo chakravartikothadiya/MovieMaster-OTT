@@ -12,16 +12,28 @@
 
 .player-close-button {
   position: absolute;
-  top: 10%;
-  left: 2%;
+  top: 12%;
+  left: 1%;
   transform: translateY(-50%);
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
+  padding-top: 5px;
+  background-color: rgba(
+    41,
+    41,
+    41,
+    0.898
+  ); /* Set button background to transparent */
+  font-size: 20px; /* Set font size */
+  height: 40px; /* Set button height */
+  width: 40px; /* Set button width */
+  border-radius: 50%; /* Set border radius to 50% to make it circular */
   color: white;
-  border: none;
-  padding: 10px;
-  font-size: 18px;
+  font-weight: bold;
+  border: 3.5px solid rgb(201, 201, 201);
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
+  margin-right: 0.4rem;
 }
 
 .movie-thumbnail {
@@ -64,76 +76,111 @@
 }
 
 .movie-play-button {
+  /* margin: 0;
+  position: relative;
+  bottom: 370px;
+  left: 50px;
+  background-color: transparent;
+  border: none;
+  color: #e5e5e5;
+  font-size: 24px; */
+  cursor: pointer;
   margin: 0;
   position: relative;
-  bottom: 370px; /* Reset bottom value */
-  left: 50px; /* Align to the left side of the thumbnail image */
-  background-color: transparent; /* Set button background to transparent */
-  border: none; /* Remove button border */
-  color: #e5e5e5; /* Set white font color */
-  font-size: 24px; /* Set font size */
+  bottom: 370px;
+  left: 50px;
+  /* height: 55px; */
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border: none;
+  padding: 1rem 2.8rem;
+  /* display: flex; */
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 1.5rem;
 }
 
-.movie-like-button,
+.movie-play-button span {
+  margin-left: 10px;
+}
+
 .movie-save-button,
-.movie-dislike-button {
-  margin: 0;
-  position: relative;
-  bottom: 370px; /* Reset bottom value */
-  left: 50px; /* Align to the left side of the thumbnail image */
-  background-color: transparent; /* Set button background to transparent */
-  border: none; /* Remove button border */
-  color: #e5e5e5; /* Set white font color */
-  font-size: 24px; /* Set font size */
-}
-
 .movie-like-button,
-.movie-like-button-on {
-  margin: 0;
+.movie-dislike-button {
+  /* margin: 0;
   position: relative;
-  bottom: 370px; /* Reset bottom value */
-  left: 50px; /* Align to the left side of the thumbnail image */
-}
-
-.movie-dislike-button,
-.movie-dislike-button-on {
+  bottom: 370px;
+  left: 50px; 
+  background-color: transparent; 
+  border: none; 
+  color: #e5e5e5; 
+  font-size: 24px;  */
   margin: 0;
+  padding-top: 5px;
   position: relative;
-  bottom: 370px; /* Reset bottom value */
+  bottom: 363px; /* Reset bottom value */
   left: 50px; /* Align to the left side of the thumbnail image */
+  background-color: rgba(
+    41,
+    41,
+    41,
+    0.898
+  ); /* Set button background to transparent */
+  font-size: 30px; /* Set font size */
+  height: 55px; /* Set button height */
+  width: 55px; /* Set button width */
+  border-radius: 50%; /* Set border radius to 50% to make it circular */
+  color: white;
+  font-weight: bold;
+  border: 3.5px solid rgb(201, 201, 201);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 0.4rem;
 }
 
 .movie-like-button-on,
 .movie-dislike-button-on {
   margin: 0;
+  padding-top: 5px;
   position: relative;
-  bottom: 370px; /* Reset bottom value */
+  bottom: 363px; /* Reset bottom value */
   left: 50px; /* Align to the left side of the thumbnail image */
-  background-color: transparent; /* Set button background to transparent */
-  border: none; /* Remove button border */
-  color: #efecec; /* Set white font color */
-  background-color: #424040;
-  font-size: 24px; /* Set font size */
+  background-color: rgba(
+    41,
+    41,
+    41,
+    0.978
+  ); /* Set button background to transparent */
+  font-size: 30px; /* Set font size */
+  height: 55px; /* Set button height */
+  width: 55px; /* Set button width */
+  border-radius: 50%; /* Set border radius to 50% to make it circular */
+  color: white;
+  font-weight: bold;
+  border: 3.5px solid rgb(201, 201, 201);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 0.4rem;
 }
 
-.movie-play-button:hover,
+.movie-play-button:hover {
+  background-color: rgba(
+    248,
+    248,
+    248,
+    0.807
+  ); /* Set background to white with 0.1 opacity on hover */
+}
+
+.player-close-button:hover,
 .movie-like-button:hover,
 .movie-save-button:hover,
 .movie-dislike-button:hover {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Set background to white with 0.1 opacity on hover */
-  color: #e5e5e5; /* Set font color to white on hover */
-}
-
-.movie-save-button {
-  margin: 0;
-  position: relative;
-  bottom: 370px; /* Reset bottom value */
-  left: 50px; /* Align to the left side of the thumbnail image */
+  color: #ffffff; /* Set font color to white on hover */
+  border-color: white;
 }
 
 .movie-details {

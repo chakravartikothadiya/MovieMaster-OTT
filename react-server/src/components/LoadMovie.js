@@ -135,7 +135,6 @@ export default function LoadMovie() {
           Error 404: Not Found
         </h1>
       )}
-      <Footer />
     </div>
   );
 }
