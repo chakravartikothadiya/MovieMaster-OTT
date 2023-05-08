@@ -26,7 +26,6 @@ const io = new Server(server, {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-console.log("session created");
 app.use(
   session({
     name: "AuthCookie",
@@ -39,12 +38,10 @@ app.use(
 app.set("socketio", io);
 
 app.use("/LoginForm", (req, res, next) => {
-  // console.log(req.session.id);
   next();
 });
 
 app.use("/Logout", (req, res, next) => {
-  // console.log(req.session);
   next();
 });
 
@@ -67,10 +64,7 @@ io.on("connection", (socket) => {
   console.log("new client connected", socket.id);
 
   socket.on("join_room", (name) => {
-    // socket.leave(name);
     const rooms = socket.rooms;
-    // const rooms = Object.keys(socket.rooms);
-    // console.log(rooms.values());
     rooms.forEach((room) => {
       socket.leave(room);
     });
@@ -78,13 +72,8 @@ io.on("connection", (socket) => {
     socket.join(name);
   });
 
-  // socket.on("leave_room", (name) => {
-  //   socket.leave(name);
-  // });
-
   socket.on("message", (data) => {
     console.log(data);
-    // socket.to(data.room).emit("recieve_message", data);
     socket.to(data.room).emit("recieve_message", data);
   });
 
@@ -92,8 +81,6 @@ io.on("connection", (socket) => {
     console.log("Disconnect Fired");
   });
 });
-//
-// io.origins(":");
 
 server.listen(8000, () => {
   console.log("We've now got a NODE server!");

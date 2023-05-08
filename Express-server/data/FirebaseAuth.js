@@ -1,5 +1,4 @@
 const registerUser = async (name, username, email, password) => {
-  console.log("in register data function");
   // Create a new user with email and password in Firebase Authentication
   const getUser = await db
     .collection("users")

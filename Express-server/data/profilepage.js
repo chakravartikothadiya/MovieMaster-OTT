@@ -48,7 +48,6 @@ const addmovietolist = async (movieId, movieName, moviePoster, userId) => {
 
 const removemoviefromlist = async (movieId, userId) => {
   try {
-    console.log(movieId, userId);
     let movieList = await movies();
     let removemovie = await movieList.updateOne(
       { userId: userId },
@@ -80,13 +79,6 @@ const getAllmovies = async (userId) => {
     console.log(e);
   }
 };
-// addmovietolist("33", "first", "someposter", "gurbeer@ere").then((e) => {
-//   console.log(e);
-// });
-
-// // removemoviefromlist("33", "gurbeer@ere").then((result) => {
-// //   console.log(result);
-// // });
 
 module.exports = {
   addmovietolist,
