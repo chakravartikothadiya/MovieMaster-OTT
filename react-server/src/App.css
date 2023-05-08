@@ -228,6 +228,10 @@ body {
   }
 }
 
+.inputField{
+  background-color: white;
+}
+
 .app {
   background-color: black;
 }
