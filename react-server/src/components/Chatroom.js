@@ -72,12 +72,13 @@ function ChatRoom({
         </button>
       </div>
       <div className="chat-body">
-        {messagelist.map((messageContent) => {
+        {messagelist.map((messageContent,i) => {
           return (
             <div
               className={`message ${
                 messageContent.author === username ? "right" : "left"
               }`}
+              key={i}
             >
               <div className="message-content">
                 <p>{messageContent.message}</p>

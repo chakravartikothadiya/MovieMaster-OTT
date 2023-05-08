@@ -9,6 +9,7 @@
   overflow-y: hidden;
   overflow-x: scroll;
   padding: 20px;
+  gap: 20px;
 }
 
 .categoryRowsthumbnails::-webkit-scrollbar {
@@ -30,14 +31,15 @@
   transform: scale(1.1);
   opacity: 1;
   transition: transform 450ms;
+  /* margin: 0 20px; */
 }
 
 .OriginalThumbnail {
   max-height: 200px;
   cursor: pointer;
   object-fit: contain;
-  margin-right: 10px;
-  transition: transform 450ms;
+  /* margin: 0 10px; */
+  transition: transform 300ms;
   padding-right: 2px;
 }
 

@@ -15,7 +15,21 @@ body {
   background-color: black;
   background: black;
 }
+*{
 
+  font-family: sans-serif;
+}
+.login{
+  margin-top: 80p2;
+  height: calc(100vh - 80px - 40px);
+  display: grid !important;
+  place-content: center;
+  place-items: center;
+}
+.loginIcon{
+  width: 20px;
+  cursor: pointer;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -34,6 +48,8 @@ body {
 
 .Profilepage {
   background-color: rgb(0, 0, 0);
+  margin-top: 80px;
+  padding: 20px;
 }
 
 .Mylistheading {

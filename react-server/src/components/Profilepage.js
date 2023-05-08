@@ -9,7 +9,7 @@ import "../App.css";
 export default function Profilepage() {
   const navigate = useNavigate();
   const [currentUser] = useContext(AuthContext);
-  const [data, setdata] = useState(null);
+  const [data, setdata] = useState([]);
   const uid = currentUser && currentUser.uid;
 
   const getdata = async () => {
@@ -22,25 +22,24 @@ export default function Profilepage() {
   };
 
   const removemovie = async (id) => {
-    const remove = await axios.delete("http://localhost:8000/profilepage", {
+    await axios.delete("http://localhost:8000/profilepage", {
       data: { movieId: id, userId: uid },
     });
+    getdata()
   };
 
   useEffect(() => {
     getdata();
-  }, [currentUser, data]);
+  }, [currentUser]);
 
   return (
     <div className="Profilepage">
-      <br></br>
-      <br></br>
-      <br></br>
       <h1 className="Mylistheading">Email: {currentUser?.emailID}</h1>
       <div className="mylistcontainer">
         <h1 className="Mylistheading">My list</h1>
 
-        {data &&
+        {typeof data === "string" ?
+        <h1>{data}</h1>:
           data.map((movie) => {
             return (
               <div>

@@ -40,8 +40,6 @@ function Home() {
   return (
     <div>
       <div>
-        <br />
-        <br />
         <div className="home">
           <HomeBanner
             fetchURL={`https://api.themoviedb.org/3//movie/top_rated?api_key=${API_KEY}&language=en-US`}

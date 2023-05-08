@@ -22,6 +22,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../UserContext";
 import { authO, provider } from "../GoogleSignIn/congif";
 import { signInWithPopup } from "firebase/auth";
+import google from "../Images/google.svg"
 // const { signInWithPopup } = require("firebase/auth");
 
 const Login = () => {
@@ -41,6 +42,13 @@ const Login = () => {
     "All your current sessions has been expired on this browser. Please Logout and Login again";
 
   const msg = useLocation().state;
+  useEffect(() => {
+    if(localStorage.getItem("session_auth")) 
+    {
+      navigate("/");
+    }
+  }, [])
+  
   // console.log(typeof window.location.pathname);
   // console.log(localStorage.getItem("session_auth"));
   if (localStorage.getItem("session_auth") == "true") {
@@ -134,15 +142,11 @@ const Login = () => {
 
   const theme = createTheme({ palette: { mode: "dark" } });
 
-  return localStorage.getItem("session_auth") ? (
-    // (window.location.pathname = "/")
-    <div></div>
-  ) : // <Home />
-  expired && expired ? (
+  return expired ? (
     <div style={{ color: "white" }}>{msg_exp}</div>
   ) : (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" className="login">
         <CssBaseline />
         <Box
           sx={{
@@ -201,19 +205,21 @@ const Login = () => {
               Login
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs={3}>
                 <Link href="/resetpass" variant="body2" className="Link">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item xs={9}>
                 <Link href="/register" variant="body2" className="Link">
                   Do not have an account? Sign Up?
                 </Link>
-                <Link onClick={googleSignin} variant="body2" className="Link">
-                  Google signIN
-                </Link>
               </Grid>
+                <Grid item xs={12} textAlign={"center"}>
+                  <Link onClick={googleSignin} variant="body2" className="Link">
+                    <img src={google} alt="google" className="loginIcon" />
+                  </Link>
+                </Grid>
             </Grid>
           </Box>
           {msg && msg ? msg.msg : null}

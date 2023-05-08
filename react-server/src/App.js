@@ -58,6 +58,11 @@ function App() {
             path="/resetpass"
             element={access() ? <Passreset /> : <Navigate to="/" />}
           />
+          <Route
+            exact
+            path="/*"
+            element={<h1 style={{color:"white",marginTop:80,textAlign:"center",fontSize:"18vw"}}>404</h1>}
+          />
         </Routes>
         <footer
           style={{

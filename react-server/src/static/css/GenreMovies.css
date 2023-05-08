@@ -1,41 +1,49 @@
-.cardLayout{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    place-content: center;
-    place-items: center;
-    gap: 15px;
-    margin: 20px;
-  }
-  .cardLayout > div{
-    height: 100%;
-    width: 100%;
-  }
-  .cardLayout > div > div{
-    height: 100%;
-    margin: auto;
-    transition: all .3s;
-  }
-  .cardLayout > div > div:hover{
-    transform: scale(1.02);
-  }
-  .thumbnail{
-    max-height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
+.cardLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-content: center;
+  place-items: center;
+  gap: 15px;
+  margin: 20px;
+}
+.cardLayout > div {
+  height: 100%;
+}
+.cardLayout > div > div {
+  height: 100%;
+  margin: auto;
+  transition: all 0.3s;
+}
+.cardLayout > div > div:hover {
+  transform: scale(1.02);
+}
+.thumbnail {
+  max-height: 200px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 
-.titleBackdrop{
+.titleBackdrop {
   position: absolute;
   font-size: 0.8rem;
   color: white;
   bottom: 0px;
-  left: 2px;
+  left: 0px;
   text-overflow: ellipsis;
   font-weight: bold;
+  width: 100%;
+  padding: 10px 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 6, 1) 0%,
+    rgba(9, 9, 121, 1) 81%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  margin: 0;
 }
 
-.thumbnaildiv{
+.thumbnaildiv {
   position: relative;
   white-space: normal;
 }
