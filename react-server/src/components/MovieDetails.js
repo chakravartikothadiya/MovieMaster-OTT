@@ -6,6 +6,17 @@ import axios from "axios";
 import io from "socket.io-client";
 import "../static/css/MovieDetails.css";
 import Chatroom from "./Chatroom";
+import PlayIcon from "./Play";
+import { BsChatDotsFill, BsChatDots } from "react-icons/bs";
+import {
+  AiFillLike,
+  AiOutlineLike,
+  AiOutlineDislike,
+  AiFillDislike,
+  AiOutlinePlus,
+  AiOutlineClose,
+} from "react-icons/ai";
+import { FiCheck } from "react-icons/fi";
 
 import { Link, useNavigate, useParams, Location } from "react-router-dom";
 
@@ -18,22 +29,16 @@ const socket = io.connect("http://localhost:8000");
 
 export default function Detail(props) {
   const [currentUser] = useContext(AuthContext);
-  console.log("IN DETAILS PAGE CURRENT USER", currentUser);
   const params = useParams();
-  console.log(params, "pararms");
+  const [closeChat, setCloseChat] = useState(true);
+  const [isChatOn, setisChatOn] = useState(false);
   const login = currentUser?.login;
   const uid = currentUser?.uid;
   const emailID = currentUser?.emailID;
-  console.log("EMAILID IS:", typeof emailID);
   let username = emailID?.split("@")[0];
   let mvId = props.id?.toString();
   let usrId = uid?.toString();
 
-  // setTimeout(() => {
-  //   if (username == undefined || localStorage.getItem("session_auth") == null) {
-  //     window.location.reload();
-  //   }
-  // }, 0);
   const navigate = useNavigate();
 
   const API_URL = "https://api.themoviedb.org/3";
@@ -246,13 +251,18 @@ export default function Detail(props) {
 
   // join room function
   const join_room = (e, MovieName) => {
+    console.log("Inside Join Function");
+    console.log("Value of closeChat: ", closeChat);
+    setCloseChat(false);
     e.preventDefault();
     setChatclosecounter(chatclosecounter + 1);
     if (chatclosecounter % 2 == 0) {
+      setisChatOn(false);
       setChat(false);
     } else {
       setroomName(MovieName);
       socket.emit("join_room", MovieName);
+      setisChatOn(true);
       setChat(true);
     }
   };
@@ -315,7 +325,7 @@ export default function Detail(props) {
               setplaytrailer(false);
             }}
           >
-            Close
+            <AiOutlineClose />
           </button>
         </div>
       ) : null}
@@ -330,22 +340,17 @@ export default function Detail(props) {
               setplaytrailer(true);
             }}
           >
-            Play
+            <PlayIcon />
+            <span>Play</span>
           </button>
 
           {currentmovieName == false ? (
-            <button
-              className="movie-save-button bannerButton"
-              onClick={handlesave}
-            >
-              Save
+            <button className="movie-save-button" onClick={handlesave}>
+              <AiOutlinePlus style={{ color: "white" }} />
             </button>
           ) : (
-            <button
-              className="movie-save-button bannerButton"
-              onClick={handleremove}
-            >
-              UnSave
+            <button className="movie-save-button" onClick={handleremove}>
+              <FiCheck style={{ color: "white" }} />
             </button>
           )}
 
@@ -353,7 +358,11 @@ export default function Detail(props) {
             className={isLiked ? "movie-like-button-on" : "movie-like-button"}
             onClick={handlelike}
           >
-            Like {likes}
+            {isLiked ? (
+              <AiFillLike style={{ fill: "white" }} />
+            ) : (
+              <AiOutlineLike style={{ fill: "white" }} />
+            )}
           </button>
           <button
             className={
@@ -361,15 +370,23 @@ export default function Detail(props) {
             }
             onClick={handledislike}
           >
-            Dislike {dislikes}
+            {isDisliked ? (
+              <AiFillDislike style={{ fill: "white" }} />
+            ) : (
+              <AiOutlineDislike style={{ fill: "white" }} />
+            )}
           </button>
           <button
             className={
-              isDisliked ? "movie-dislike-button-on" : "movie-dislike-button"
+              isChatOn ? "movie-dislike-button-on" : "movie-dislike-button"
             }
             onClick={(e) => join_room(e, props.title)}
           >
-            CHAT
+            {isChatOn ? (
+              <BsChatDotsFill style={{ fill: "white" }} />
+            ) : (
+              <BsChatDots style={{ fill: "white" }} />
+            )}
           </button>
           <div className="movie-thumbnail-bottom-fade"></div>
         </div>
@@ -396,12 +413,16 @@ export default function Detail(props) {
           <RecommenderMovies movies={recommenderData} />
         ) : null}
       </div>
-      {chat && (
+      {chat && !closeChat && (
         <Chatroom
           socket={socket}
           username={username}
           room={roomName}
           toggle={true}
+          setCloseChat={setCloseChat}
+          setChatclosecounter={setChatclosecounter}
+          chatclosecounter={chatclosecounter}
+          setisChatOn={setisChatOn}
         />
       )}
     </div>

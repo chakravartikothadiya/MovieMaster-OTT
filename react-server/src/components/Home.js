@@ -70,7 +70,6 @@ function Home() {
             title="Romance Movies"
             fetchUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=10749`}
           />
-          <Footer />
         </div>
       </div>
     </div>

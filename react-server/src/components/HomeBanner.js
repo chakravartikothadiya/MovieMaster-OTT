@@ -4,6 +4,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import YouTube from "react-youtube";
+import PlayIcon from "./Play";
+import InfoIcon from "./Info";
+import { AiOutlineClose } from "react-icons/ai";
 
 const API_KEY = process.env.REACT_APP_TMDC_API_KEY;
 
@@ -21,7 +24,7 @@ function HomeBanner({ fetchURL }) {
   useEffect(() => {
     console.log("Inside useEffect");
     fetchData();
-  }, []);
+  }, [fetchURL]);
 
   useEffect(() => {
     console.log("Movie after setting:", movie);
@@ -107,7 +110,7 @@ function HomeBanner({ fetchURL }) {
               setplaytrailer(false);
             }}
           >
-            Close
+            <AiOutlineClose />
           </button>
         </div>
       ) : (
@@ -130,15 +133,17 @@ function HomeBanner({ fetchURL }) {
                   setplaytrailer(true);
                 }}
               >
-                Play
+                <PlayIcon />
+                <span> Play</span>
               </button>
               <button
-                className="bannerButton"
+                className="bannerButton2"
                 onClick={() => {
                   navigate("/profile");
                 }}
               >
-                My List
+                <InfoIcon />
+                {"  "} My List
               </button>
             </>
             <h1 className="description">{truncate(movie?.overview, 200)}</h1>

@@ -59,6 +59,17 @@ function App() {
             element={access() ? <Passreset /> : <Navigate to="/" />}
           />
         </Routes>
+        <footer
+          style={{
+            fontSize: "12px",
+            color: "white",
+            marginLeft: "20px",
+            padding: "10px",
+            marginBottom: "20px",
+          }}
+        >
+          © 2023 MovieMaster, Inc.
+        </footer>
       </div>
     </Router>
   );

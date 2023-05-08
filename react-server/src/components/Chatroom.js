@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
-function ChatRoom({ socket, username, room }) {
+
+function ChatRoom({
+  socket,
+  username,
+  room,
+  closeChat,
+  setCloseChat,
+  setChatclosecounter,
+  chatclosecounter,
+  setisChatOn,
+}) {
   const [currMessage, setcurrMessage] = useState("");
   const [messagelist, setMessagelist] = useState([]);
   const navigate = useNavigate;
@@ -46,11 +56,20 @@ function ChatRoom({ socket, username, room }) {
     };
   }, [socket]);
 
+  const closeChatfun = async () => {
+    setCloseChat(true);
+    setisChatOn(false);
+    setChatclosecounter(chatclosecounter + 1);
+  };
+
   return (
     <div className="chat-window">
       <div className="chat-header">
         <p>{room} live chat</p>
         {/* <button onClick={closeChat}>close</button> */}
+        <button className="close-button" onClick={closeChatfun}>
+          ×
+        </button>
       </div>
       <div className="chat-body">
         {messagelist.map((messageContent) => {
@@ -73,8 +92,10 @@ function ChatRoom({ socket, username, room }) {
         })}
       </div>
       <div className="chat-input">
+        <label for="chat-input" hidden></label>
         <input
           type="text"
+          id="chat-input"
           placeholder="Hey...."
           onChange={(e) => {
             setcurrMessage(e.target.value);

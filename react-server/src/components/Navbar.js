@@ -4,6 +4,7 @@ import "../static/css/Navbar.css";
 import logo from "../logo.png";
 import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AiOutlineLogout } from "react-icons/ai";
 
 function Navbar() {
   const location = useLocation();
@@ -107,7 +108,6 @@ function Navbar() {
               onChange={handleSearch}
               id="searchInput"
             />
-            <button>Search</button>
           </div>
         )}
         {logoutButton == "true" ? (
@@ -119,7 +119,8 @@ function Navbar() {
               navigate("/login");
             }}
           >
-            Logout
+            <AiOutlineLogout />{" "}
+            <span style={{ marginLeft: "5px" }}>Logout</span>
           </button>
         ) : null}
         <Link to={"/profile"}>
