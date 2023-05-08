@@ -11,31 +11,23 @@ export default function Profilepage() {
   const [currentUser] = useContext(AuthContext);
   const [data, setdata] = useState(null);
   const uid = currentUser && currentUser.uid;
-  let userId = uid?.toString().split('"')[1];
-  console.log("user", currentUser);
+
   const getdata = async () => {
     const response = await axios.get("http://localhost:8000/profilepage", {
       params: {
-        userId: userId,
+        userId: uid,
       },
     });
-    console.log("response", response);
-
-    let arr = response.data.map((e) => {
-      return e;
-    });
-    console.log("arr", arr, typeof arr);
-    setdata(arr);
+    setdata(response.data);
   };
 
   const removemovie = async (id) => {
     const remove = await axios.delete("http://localhost:8000/profilepage", {
-      data: { movieId: id, userId: userId },
+      data: { movieId: id, userId: uid },
     });
   };
 
   useEffect(() => {
-    console.log("in useEffect");
     getdata();
   }, [currentUser, data]);
 
