@@ -69,16 +69,10 @@ export default function Detail(props) {
           movieId: mvId,
           moviePoster: props.poster,
           movieName: props.title,
-          userId: usrId.split('"')[1],
+          userId: usrId,
         }
       );
-      setcurrentmovieName(
-        mylistresponse?.data[0]?.mylist?.map((e) => {
-          if (e.name == props.title) {
-            return true;
-          }
-        })
-      );
+      setcurrentmovieName(true);
     } catch (e) {
       console.log(e);
     }
@@ -87,7 +81,7 @@ export default function Detail(props) {
   const handleremove = async () => {
     try {
       const remove = await axios.delete("http://localhost:8000/profilepage", {
-        data: { movieId: props.id.toString(), userId: usrId.split('"')[1] },
+        data: { movieId: props.id.toString(), userId: usrId },
       });
       setcurrentmovieName(false);
     } catch (e) {
@@ -223,15 +217,12 @@ export default function Detail(props) {
 
   const fetchlistdata = async () => {
     try {
-      console.log("in list data");
       const list = await axios.get("http://localhost:8000/profilepage", {
         params: {
-          userId: usrId.toString().split('"')[1],
+          userId: usrId,
         },
       });
-      console.log("after axios", list);
       setlistdataX(list.data);
-      console.log("in list", listdataX);
     } catch (e) {
       console.log(e);
     }
@@ -251,8 +242,6 @@ export default function Detail(props) {
 
   // join room function
   const join_room = (e, MovieName) => {
-    console.log("Inside Join Function");
-    console.log("Value of closeChat: ", closeChat);
     setCloseChat(false);
     e.preventDefault();
     setChatclosecounter(chatclosecounter + 1);
@@ -345,12 +334,12 @@ export default function Detail(props) {
           </button>
 
           {currentmovieName == false ? (
-            <button className="movie-save-button" onClick={handlesave}>
-              <AiOutlinePlus style={{ color: "white" }} />
+            <button className="movie-save-button">
+              <AiOutlinePlus style={{ color: "white" }} onClick={handlesave} />
             </button>
           ) : (
-            <button className="movie-save-button" onClick={handleremove}>
-              <FiCheck style={{ color: "white" }} />
+            <button className="movie-save-button">
+              <FiCheck style={{ color: "white" }} onClick={handleremove} />
             </button>
           )}
 

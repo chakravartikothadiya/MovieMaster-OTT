@@ -10,7 +10,11 @@ router
       let query = req.query;
       let MovieList = await profilepage.getAllmovies(query.userId);
       //   console.log(MovieList);
-      return res.json(MovieList[0]?.myList).status(200);
+      if (MovieList) {
+        return res.json(MovieList[0]?.myList).status(200);
+      } else {
+        return res.json("no Movie").status(404);
+      }
     } catch (e) {
       console.log(e);
     }
