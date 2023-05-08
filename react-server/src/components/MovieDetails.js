@@ -355,7 +355,7 @@ export default function Detail(props) {
               <label for="save-button" hidden>
                 Save Button
               </label>
-              <button className="movie-save-button">
+              <button className="movie-save-button" id="save-button">
                 <FiCheck style={{ color: "white" }} onClick={handleremove} />
               </button>
             </>
@@ -416,7 +416,13 @@ export default function Detail(props) {
         <div className="left-container">
           <div className="movie-description">{props.description}</div>
           <div className="movie-rating">
-            Rating: <span className="rating-value">{props.rating}</span>
+            Popularity: <span className="rating-value">{props.rating}</span>
+          </div>
+          <div className="movie-rating">
+            Likes: <span className="rating-value">{likes}</span>
+          </div>
+          <div className="movie-rating">
+            Dislikes: <span className="rating-value">{dislikes}</span>
           </div>
           <div className="movie-rating">
             Duration: <span className="rating-value">{props.runtime}</span>
