@@ -20,8 +20,8 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../UserContext";
-import { authO, provider } from "../GoogleSignIn/congif";
-import { signInWithPopup } from "firebase/auth";
+import { authO, provider, provider1 } from "../GoogleSignIn/congif";
+import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 
 function RegistrationForm() {
   const navigate = useNavigate();
@@ -101,6 +101,14 @@ function RegistrationForm() {
     console.log(result.user.uid);
   };
 
+  const facebookSignin = async () => {
+    const result = await signInWithPopup(authO, provider1);
+    console.log(result);
+    // const credential = FacebookAuthProvider.credentialFromResult(result);
+    // const accessToken = credential.accessToken;
+    // console.log(accessToken);
+  };
+
   return localStorage.getItem("session_auth") ? (
     (window.location.pathname = "/")
   ) : (
@@ -174,6 +182,9 @@ function RegistrationForm() {
                 </Link>
                 <Link onClick={googleSignin} variant="body2" className="Link">
                   Google signIN
+                </Link>
+                <Link onClick={facebookSignin} variant="body2" className="Link">
+                  Facebook signIN
                 </Link>
               </Grid>
             </Grid>

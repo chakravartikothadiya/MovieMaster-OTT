@@ -41,7 +41,6 @@ const Login = () => {
     "All your current sessions has been expired on this browser. Please Logout and Login again";
 
   const msg = useLocation().state;
-
   // console.log(typeof window.location.pathname);
   // console.log(localStorage.getItem("session_auth"));
   if (localStorage.getItem("session_auth") == "true") {
@@ -74,6 +73,9 @@ const Login = () => {
       // check!
       if (response && !response.data.code) {
         // console.log(response);
+
+        global.globalData = response.data;
+
         const { login, emailID, uid } = response.data && response.data;
 
         // console.log("EMAIL FROM HOME", emailID);
@@ -92,11 +94,7 @@ const Login = () => {
           "session_userID",
           JSON.stringify(response.data.uid)
         );
-        setCurrentUser(obj);
-        setUsersession(currentUser);
-        // console.log("Current User", currentUser);
-        // console.log("= User_SESSION", user_session);
-        // console.log(response.data);
+        setCurrentUser({ login, emailID, uid });
         setRedirect(true);
         navigate("/", { state: { user_session: response.data } });
       } else {
@@ -106,23 +104,11 @@ const Login = () => {
           response.data.code == "auth/user-not-found"
         )
           setAuth(true);
-        // console.log(response.data.code);
       }
-
-      // setUsersession(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   setCurrentUser(currentUser);
-  // }, []);
-  // useEffect(() => {
-  //   if (redirect) {
-  //     navigate("/", { state: { user_session: user_session } });
-  //   }
-  // }, [redirect]);
 
   const googleSignin = async () => {
     console.log("in googleSignin");
