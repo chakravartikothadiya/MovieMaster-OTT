@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Passreset from "./components/Passreset";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Genre from "./components/Genre";
 import Navbar from "./components/Navbar";
@@ -21,20 +22,14 @@ function App() {
   const [currentUser] = useContext(AuthContext);
   useEffect(() => {
     console.log({ currentUser });
-    const access = () => {
-      if (currentUser === null) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+    access();
   }, []);
 
   const access = () => {
-    if (currentUser === null) {
-      return true;
-    } else {
+    if (currentUser === undefined) {
       return false;
+    } else {
+      return true;
     }
   };
 
@@ -43,8 +38,12 @@ function App() {
       <div className="app">
         <Navbar />
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/login" element={access() ? <Login /> : <Home />} />
+          <Route
+            path="/register"
+            element={access() ? <RegistrationForm /> : <Navigate to="/" />}
+          />
+          {/* <Route path="/register" element={<RegistrationForm />} /> */}
           {/* The Routes from here on will be protected Routes. All routes expect Login and Register and in futuer Forgot password will be only non protected routes */}
 
           <Route element={<ProtectedRoutes />}>
@@ -54,7 +53,11 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<Profilepage />} />
           </Route>
-          <Route exact path="/resetpass" element={<Passreset />} />
+          <Route
+            exact
+            path="/resetpass"
+            element={access() ? <Passreset /> : <Navigate to="/" />}
+          />
         </Routes>
       </div>
     </Router>

@@ -44,9 +44,7 @@ export default function Profilepage() {
       <br></br>
       <br></br>
       <br></br>
-      <h1 className="Mylistheading">
-        Email: {currentUser?.emailID?.split('"')[1]}
-      </h1>
+      <h1 className="Mylistheading">Email: {currentUser?.emailID}</h1>
       <div className="mylistcontainer">
         <h1 className="Mylistheading">My list</h1>
 

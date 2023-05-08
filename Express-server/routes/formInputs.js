@@ -11,7 +11,7 @@ const {
 const { app } = require("../firebase/authentication");
 
 const session = require("express-session");
-// let user_session = {};
+let user_session = {};
 let firebase_auth = {};
 
 router.route("/RegistrationForm").post(async (req, res) => {
@@ -99,8 +99,8 @@ router.route("/LoginForm").post(async (req, res) => {
 
     firebase_auth = { user };
     // console.log("SESSION", req.session.id);
-    // user_session.session = req.session;
-    // console.log("User_session", user_session);
+    user_session = req.session;
+    console.log("User_session", user_session);
     res.json(req.session);
     // res.json(user);
   } catch (e) {
@@ -112,6 +112,8 @@ router.route("/Logout").post(async (req, res) => {
   try {
     console.log("inside Logout route");
     // console.log(req.session.id);
+    console.log(user_session);
+    user_session = {};
     const auth = getAuth(app);
     // console.log("in logout", await auth.currentUser());
     auth
@@ -144,21 +146,12 @@ router.route("/ResetPassword").post(async (req, res) => {
   }
 });
 
-// router.route("/googleSignin").get(async (req, res) => {
-//   try {
-//     const auth = getAuth(app);
-//     const provider = new GoogleAuthProvider();
-
-//     res.send({ auth, provider });
-//     // Sign in with the Google popup
-//     // const userCredential = await signInWithPopup(auth, provider);
-
-//     // Get the signed-in user's data
-//     // const user = userCredential.user;
-//     console.log(user);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
+router.route("/verify").get(async (req, res) => {
+  try {
+    res.json(user_session);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 module.exports = router;
