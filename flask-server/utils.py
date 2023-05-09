@@ -42,5 +42,7 @@ def recommend_movies_byMovies(movie_title, num_recommendations=5):
     sim_scores = sim_scores[1:num_recommendations+1]
     movie_indices = [i[0] for i in sim_scores]
     recommended_movies = reverse_indices[movie_indices].values.tolist()
+    if movie_title in recommended_movies:
+        recommended_movies.remove(movie_title)
     output_dict = {"movies": recommended_movies}
     return output_dict
