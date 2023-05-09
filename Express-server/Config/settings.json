@@ -1,6 +1,6 @@
 {
     "mongoConfig": {
-      "serverUrl": "mongodb://localhost:27017/",
+      "serverUrl": "mongodb+srv://doadmin:7CmtjD9402R138bI@db-mongodb-nyc1-62026-759adc75.mongo.ondigitalocean.com/MovieMaster?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-62026",
       "database": "MovieMaster"
   } 
 }
