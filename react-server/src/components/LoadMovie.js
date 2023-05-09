@@ -83,7 +83,7 @@ export default function LoadMovie() {
   useEffect(() => {
     fetc_data();
     fecth_cast();
-  }, []);
+  }, [id]);
 
   return (
     <div className="Load-Movie">

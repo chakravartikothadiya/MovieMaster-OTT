@@ -223,18 +223,13 @@ export default function Detail(props) {
         },
       });
       setlistdataX(list.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const checksave = () => {
-    try {
-      listdataX?.map((e) => {
+      let isSaved = false;
+      list.data?.map((e) => {
         if (e.name == props.title) {
-          setcurrentmovieName(true);
+          isSaved = true;
         }
       });
+      setcurrentmovieName(isSaved);
     } catch (e) {
       console.log(e);
     }
@@ -257,16 +252,12 @@ export default function Detail(props) {
   };
 
   useEffect(() => {
-    checksave();
-  }, [listdataX]);
-
-  useEffect(() => {
     selectMovie();
     fetchLikesDislikes();
     getDBTotalLikesDislikes();
     fetchRecommendedMovies();
     fetchlistdata();
-  }, [props.id, isLiked, isDisliked, currentmovieName, params.id]);
+  }, [props.id, isLiked, isDisliked, currentmovieName, params.id, props.title]);
 
   useEffect(() => {
     if (localStorage.getItem("session_auth") == null) {

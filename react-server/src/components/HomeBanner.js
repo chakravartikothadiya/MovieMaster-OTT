@@ -50,14 +50,19 @@ function HomeBanner({ fetchURL }) {
   };
 
   const selectMovie = async () => {
-    const data = await fetchMovieVideo(movie?.id);
-    let trl = data?.videos?.results?.find((vid) =>
-      vid.name.includes("Trailer")
-    );
-    if (!trl) {
-      trl = data?.videos?.results[0];
+    try {
+      const data = await fetchMovieVideo(movie?.id);
+      let trl = data?.videos?.results?.find((vid) =>
+        vid.name.includes("Trailer")
+      );
+      if (!trl) {
+        trl = data?.videos?.results[0];
+      }
+      setTrailer(trl);
+    } catch (e) {
+      console.error(e);
+      setTrailer({});
     }
-    setTrailer(trl);
   };
 
   const renderTrailer = () => {
