@@ -102,7 +102,7 @@ export default function Comments({ currentUserId, username, movieId }) {
 
   useEffect(() => {
     setData();
-  }, []);
+  }, [movieId]);
 
   return (
     <div className={styles.comments}>
