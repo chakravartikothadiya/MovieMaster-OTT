@@ -1,5 +1,7 @@
 # MovieMaster-OTT
 
+Complete Deployed Website URL: http://134.209.67.207/
+
 MovieMaster
 Project Description:
 MovieMaster is an OTT platform hosting movies of various genres for a wide audience. Why 
@@ -13,11 +15,12 @@ Moreover, our platform is a safe place. With Firebase authentication, your accou
 from potential breaches.
 
 ## Group Memebers:
-1. Manyu Dhyani - 20015463
-2. Gurbeer Singh Sokhi - 20011962
-3. Kshitij Kiran Chaudhari - 20011209
-4. Harshil Dani - 10477871
-5. Chakravarti Kothadiya – 20012229
+1. Chakravarti Kothadiya – 20012229
+2. Manyu Dhyani - 20015463
+3. Gurbeer Singh Sokhi - 20011962
+4. Kshitij Kiran Chaudhari - 20011209
+5. Harshil Dani - 10477871
+
 
 ## Course Technologies:
 ## React
